@@ -1,14 +1,12 @@
-title: "TryHackMe CTF"
-description: "Professional CTF documentation."
-
-theme: jekyll-theme-primer
-
+title: "The Guestbook — TryHackMe CTF"
+description: "Professional portfolio documentation for The Guestbook TryHackMe room."
+theme: jekyll-theme-hacker
 plugins:
   - jekyll-relative-links
-
 relative_links:
   enabled: true
   collections: true
-
+sass:
+  style: compressed
 include:
   - docs

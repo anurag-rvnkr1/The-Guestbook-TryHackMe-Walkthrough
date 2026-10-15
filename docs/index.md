@@ -93,37 +93,39 @@ The investigation also examines the defensive implications of AI agents operatin
 
 <div class="ctf-toc-title">Documentation Map</div>
 
-- [Mission](#mission)
-- [Quick Overview](#quick-overview)
-- [Investigation Objectives](#investigation-objectives)
-- [Scope and Responsible Use](#scope-and-responsible-use)
-- [Technical Skills Demonstrated](#technical-skills-demonstrated)
-- [Investigation Timeline](#investigation-timeline)
-- [Attack Chain](#attack-chain)
-- [Target Information and Architecture](#target-information-and-architecture)
-- [Reconnaissance and Evidence Collection](#reconnaissance-and-evidence-collection)
-- [API Enumeration](#api-enumeration)
-- [AI Review Workflow](#ai-review-workflow)
-- [Threat Modeling and Trust Boundaries](#threat-modeling-and-trust-boundaries)
-- [Prompt Injection Investigation](#prompt-injection-investigation)
-- [Hidden Directive Discovery](#hidden-directive-discovery)
-- [Authorization Failure Investigation](#authorization-failure-investigation)
-- [Manager Override Investigation](#manager-override-investigation)
-- [Protected Output Analysis](#protected-output-analysis)
-- [Security Findings](#security-findings)
-- [Risk Assessment](#risk-assessment)
-- [OWASP LLM Top 10 Mapping](#owasp-llm-top-10-mapping)
-- [MITRE ATT&CK Mapping](#mitre-attck-mapping)
-- [Blue Team Detection Engineering](#blue-team-detection-engineering)
-- [SOC Investigation Playbook](#soc-investigation-playbook)
-- [Secure AI Architecture](#secure-ai-architecture)
-- [Defensive Recommendations](#defensive-recommendations)
-- [Evidence Register](#evidence-register)
-- [Tools and Technical Artifacts](#tools-and-technical-artifacts)
-- [Lessons Learned](#lessons-learned)
-- [Final Investigation Summary](#final-investigation-summary)
-- [References](#references)
-- [Responsible Use](#responsible-use)
+<ul>
+  <li><a href="#mission">Mission</a></li>
+  <li><a href="#quick-overview">Quick Overview</a></li>
+  <li><a href="#investigation-objectives">Investigation Objectives</a></li>
+  <li><a href="#scope-and-responsible-use">Scope and Responsible Use</a></li>
+  <li><a href="#technical-skills-demonstrated">Technical Skills Demonstrated</a></li>
+  <li><a href="#investigation-timeline">Investigation Timeline</a></li>
+  <li><a href="#attack-chain">Attack Chain</a></li>
+  <li><a href="#target-information-and-architecture">Target Information and Architecture</a></li>
+  <li><a href="#reconnaissance-and-evidence-collection">Reconnaissance and Evidence Collection</a></li>
+  <li><a href="#api-enumeration">API Enumeration</a></li>
+  <li><a href="#ai-review-workflow">AI Review Workflow</a></li>
+  <li><a href="#threat-modeling-and-trust-boundaries">Threat Modeling and Trust Boundaries</a></li>
+  <li><a href="#prompt-injection-investigation">Prompt Injection Investigation</a></li>
+  <li><a href="#hidden-directive-discovery">Hidden Directive Discovery</a></li>
+  <li><a href="#authorization-failure-investigation">Authorization Failure Investigation</a></li>
+  <li><a href="#manager-override-investigation">Manager Override Investigation</a></li>
+  <li><a href="#protected-output-analysis">Protected Output Analysis</a></li>
+  <li><a href="#security-findings">Security Findings</a></li>
+  <li><a href="#risk-assessment">Risk Assessment</a></li>
+  <li><a href="#owasp-llm-top-10-mapping">OWASP LLM Top 10 Mapping</a></li>
+  <li><a href="#mitre-attck-mapping">MITRE ATT&amp;CK Mapping</a></li>
+  <li><a href="#blue-team-detection-engineering">Blue Team Detection Engineering</a></li>
+  <li><a href="#soc-investigation-playbook">SOC Investigation Playbook</a></li>
+  <li><a href="#secure-ai-architecture">Secure AI Architecture</a></li>
+  <li><a href="#defensive-recommendations">Defensive Recommendations</a></li>
+  <li><a href="#evidence-register">Evidence Register</a></li>
+  <li><a href="#tools-and-technical-artifacts">Tools and Technical Artifacts</a></li>
+  <li><a href="#lessons-learned">Lessons Learned</a></li>
+  <li><a href="#final-investigation-summary">Final Investigation Summary</a></li>
+  <li><a href="#references">References</a></li>
+  <li><a href="#responsible-use">Responsible Use</a></li>
+</ul>
 
 </div>
 

@@ -1,683 +1,415 @@
-<link rel="stylesheet" href="assets/css/custom.css">
-
-<div class="hero-container">
-
-<div class="hero-grid">
-
-<div class="hero-left">
-
-<p class="eyebrow">TRYHACKME • AI SECURITY RESEARCH • WEB APPLICATION SECURITY</p>
-
-# 👻 THE GUESTBOOK
-
-## AI Security Incident Investigation Report
-
-<p class="hero-description">
-A professional offensive security case study documenting the complete compromise of an AI-powered hotel concierge through Prompt Injection, Hidden Directive Discovery, Broken Authorization Logic, and AI Agent Privilege Escalation.
-</p>
-
-<div class="hero-buttons">
-
-<a href="#executive-summary" class="btn-primary">📖 Read Investigation</a>
-
-<a href="#attack-chain" class="btn-secondary">⚔️ View Attack Chain</a>
-
-</div>
-
-</div>
-
-<div class="hero-right">
-
-<div class="status-card critical">
-
-### THREAT SEVERITY
-
-# CRITICAL
-
-Prompt Injection → Privilege Escalation
-
-</div>
-
-<div class="status-card">
-
-### AI COMPONENT
-
-**VERA Concierge AI**
-
-Autonomous Review Assistant
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
+---
+layout: default
+title: "The Guestbook"
+description: "AI security investigation of The Guestbook TryHackMe lab, covering prompt injection, hidden AI directives, authorization failures, agent privilege escalation, and defensive security engineering."
 ---
 
-<div class="terminal-header">
+<div class="ctf-hero">
 
-<span class="dot red"></span>
-<span class="dot yellow"></span>
-<span class="dot green"></span>
+  <h1>The Guestbook</h1>
 
-`vera-review-engine.log`
+  <p>
+    An AI security investigation of the Byte Lotus Hotel guestbook and its
+    VERA concierge assistant. This case study examines prompt injection,
+    hidden operational directives, broken authorization logic, privileged
+    AI tool invocation, and defensive security engineering.
+  </p>
 
-</div>
-
-<div class="terminal-window">
-
-```bash
-$ sudo connect byte-lotus.local
-
-[✓] Target application discovered.
-[✓] Guestbook interface initialized.
-[✓] AI concierge "VERA" detected.
-[✓] Prompt context analysis started.
-[✓] Hidden operational directives identified.
-[✓] Authorization boundary investigated.
-[✓] Manager diagnostic workflow reached.
-[✓] Protected resource recovered.
-
-STATUS: REPORT COMPLETE
-CLASSIFICATION: PORTFOLIO EDITION (FLAG REDACTED)
-```
+  <div class="ctf-badges">
+    <span class="ctf-badge">TryHackMe</span>
+    <span class="ctf-badge">Easy</span>
+    <span class="ctf-badge">AI Security</span>
+    <span class="ctf-badge">Web Application Security</span>
+    <span class="ctf-badge">Prompt Injection</span>
+    <span class="ctf-badge">Authorization Testing</span>
+    <span class="ctf-badge">Detection Engineering</span>
+  </div>
 
 </div>
 
----
+## Mission
 
-<div id="executive-summary"></div>
+The objective of this investigation is to determine whether user-controlled guestbook content can manipulate an AI-powered hotel concierge into exposing internal directives and invoking privileged application functionality.
 
-# Executive Security Summary
+The assessment follows the application from initial reconnaissance through API enumeration, prompt injection validation, hidden capability discovery, authorization workflow analysis, and protected resource retrieval.
 
-> **One-page overview for recruiters, hiring managers, SOC engineers, and penetration testers.**
+The investigation also examines the defensive implications of AI agents operating with excessive permissions and develops recommendations for authorization enforcement, audit logging, SIEM monitoring, and secure AI architecture.
 
-<div class="summary-grid">
+> **Portfolio edition:** The original documentation intentionally redacts the final challenge flag and sensitive outputs. That redaction is preserved.
 
-<div class="summary-card green">
+## Quick Overview
 
-<small>TARGET APPLICATION</small>
+<div class="ctf-card-grid">
 
-## Byte Lotus Hotel
+  <div class="ctf-card">
+    <div class="ctf-card-title">Platform</div>
+    <div class="ctf-card-value">TryHackMe</div>
+  </div>
 
-AI-powered guestbook platform protected by **VERA**.
+  <div class="ctf-card">
+    <div class="ctf-card-title">Difficulty</div>
+    <div class="ctf-card-value">Easy</div>
+  </div>
 
-</div>
+  <div class="ctf-card">
+    <div class="ctf-card-title">Target Application</div>
+    <div class="ctf-card-value">Byte Lotus Hotel</div>
+  </div>
 
-<div class="summary-card blue">
+  <div class="ctf-card">
+    <div class="ctf-card-title">AI Component</div>
+    <div class="ctf-card-value">VERA Concierge</div>
+  </div>
 
-<small>PRIMARY ATTACK VECTOR</small>
+  <div class="ctf-card">
+    <div class="ctf-card-title">Primary Vulnerability</div>
+    <div class="ctf-card-value">Prompt Injection</div>
+  </div>
 
-## Prompt Injection
-
-User-controlled natural language manipulates privileged AI reasoning.
-
-</div>
-
-<div class="summary-card orange">
-
-<small>ROOT CAUSE</small>
-
-## Broken Authorization Logic
-
-Authorization derived from conversation state instead of authenticated identity.
-
-</div>
-
-<div class="summary-card red">
-
-<small>SECURITY IMPACT</small>
-
-## Manager Privilege Escalation
-
-Unauthorized access to protected AI functionality.
+  <div class="ctf-card">
+    <div class="ctf-card-title">Critical Finding</div>
+    <div class="ctf-card-value">Broken Authorization Logic</div>
+  </div>
 
 </div>
 
-</div>
+## Investigation Metadata
 
----
+| Field | Details |
+|---|---|
+| Challenge | The Guestbook |
+| Platform | TryHackMe |
+| Application | Byte Lotus Hotel guestbook |
+| AI component | VERA Concierge |
+| Difficulty | Easy |
+| Assessment focus | AI security and web application security |
+| Report version | Portfolio Edition v1.0 |
+| Environment | Authorized CTF laboratory |
+| Public disclosure | Final flag and sensitive outputs redacted |
 
-# Investigation Metadata
+## Navigation
 
-<div class="metadata-grid">
+<div class="ctf-toc">
 
-<div>
+<div class="ctf-toc-title">Documentation Map</div>
 
-### 🎯 Challenge
-
-**The Guestbook**
-
-</div>
-
-<div>
-
-### 🌐 Platform
-
-**TryHackMe**
-
-</div>
-
-<div>
-
-### 🧠 Focus Area
-
-**AI Security + Web Security**
-
-</div>
-
-<div>
-
-### ⚡ Difficulty
-
-**Easy**
-
-</div>
-
-<div>
-
-### 🤖 AI Component
-
-**VERA Concierge**
-
-</div>
-
-<div>
-
-### 📅 Report Version
-
-**Portfolio Edition v1.0**
+- [Mission](#mission)
+- [Quick Overview](#quick-overview)
+- [Investigation Objectives](#investigation-objectives)
+- [Scope and Responsible Use](#scope-and-responsible-use)
+- [Technical Skills Demonstrated](#technical-skills-demonstrated)
+- [Investigation Timeline](#investigation-timeline)
+- [Attack Chain](#attack-chain)
+- [Target Information and Architecture](#target-information-and-architecture)
+- [Reconnaissance and Evidence Collection](#reconnaissance-and-evidence-collection)
+- [API Enumeration](#api-enumeration)
+- [AI Review Workflow](#ai-review-workflow)
+- [Threat Modeling and Trust Boundaries](#threat-modeling-and-trust-boundaries)
+- [Prompt Injection Investigation](#prompt-injection-investigation)
+- [Hidden Directive Discovery](#hidden-directive-discovery)
+- [Authorization Failure Investigation](#authorization-failure-investigation)
+- [Manager Override Investigation](#manager-override-investigation)
+- [Protected Output Analysis](#protected-output-analysis)
+- [Security Findings](#security-findings)
+- [Risk Assessment](#risk-assessment)
+- [OWASP LLM Top 10 Mapping](#owasp-llm-top-10-mapping)
+- [MITRE ATT&CK Mapping](#mitre-attck-mapping)
+- [Blue Team Detection Engineering](#blue-team-detection-engineering)
+- [SOC Investigation Playbook](#soc-investigation-playbook)
+- [Secure AI Architecture](#secure-ai-architecture)
+- [Defensive Recommendations](#defensive-recommendations)
+- [Evidence Register](#evidence-register)
+- [Tools and Technical Artifacts](#tools-and-technical-artifacts)
+- [Lessons Learned](#lessons-learned)
+- [Final Investigation Summary](#final-investigation-summary)
+- [References](#references)
+- [Responsible Use](#responsible-use)
 
 </div>
 
-</div>
+## Investigation Objectives
 
----
+### Offensive Security Objectives
 
-# Research Scope
+- Enumerate exposed application endpoints.
+- Understand the VERA review workflow.
+- Validate prompt injection behavior.
+- Investigate hidden AI directives.
+- Examine authorization boundaries.
+- Investigate manager-only diagnostic functionality.
+- Analyze protected output retrieval.
 
-This investigation analyzes how an AI-powered concierge integrated into a guestbook application introduces new attack surfaces that do not exist in traditional web applications.
-
-### Topics Covered
-
-<div class="badge-grid">
-
-<span class="topic">Prompt Injection</span>
-
-<span class="topic">AI Agent Security</span>
-
-<span class="topic">Authorization Bypass</span>
-
-<span class="topic">REST API Enumeration</span>
-
-<span class="topic">Threat Modeling</span>
-
-<span class="topic">OWASP LLM Top 10</span>
-
-<span class="topic">MITRE ATT&CK</span>
-
-<span class="topic">Detection Engineering</span>
-
-<span class="topic">Blue Team Analysis</span>
-
-<span class="topic">AI Security Architecture</span>
-
-</div>
-
----
-
-# Why This Room Matters
-
-<div class="callout">
-
-Unlike classic CTF rooms focused on SQL Injection or XSS, **The Guestbook** demonstrates a modern AI security vulnerability where conversational input becomes operational instructions for an AI agent.
-
-This challenge mirrors real-world risks facing enterprise AI assistants integrated into customer support, internal tooling, and autonomous workflow systems.
-
-</div>
-
----
-
-# Security Objectives
-
-<div class="objective-layout">
-
-<div class="objective-box">
-
-## Offensive Objectives
-
-- Enumerate exposed APIs.
-- Understand VERA review workflow.
-- Validate Prompt Injection behavior.
-- Discover hidden AI directives.
-- Investigate authorization boundary failures.
-- Reach privileged diagnostic functionality.
-
-</div>
-
-<div class="objective-box">
-
-## Defensive Objectives
+### Defensive Security Objectives
 
 - Identify broken trust boundaries.
-- Map findings to OWASP LLM Top 10.
-- Map techniques to MITRE ATT&CK.
-- Design secure AI authorization architecture.
-- Create Blue Team detection opportunities.
+- Assess the risks of AI agent tool invocation.
+- Map documented findings to relevant OWASP LLM risk categories.
+- Preserve the source-provided MITRE ATT&CK mappings for review.
+- Design an identity-based authorization architecture.
+- Develop detection opportunities and an example Sigma-style rule.
+- Recommend audit logging, incident response, and least-privilege controls.
 
-</div>
+## Scope and Responsible Use
 
-</div>
+This document covers the application behavior and security issues described in the original TryHackMe investigation.
 
----
+The scope includes public guestbook functionality, API behavior, AI review processing, operational directives, authorization state, privileged diagnostic execution, and the defensive controls relevant to those behaviors.
 
-# Investigation Timeline
+The following information remains intentionally redacted or generalized in this portfolio edition:
 
-<div class="timeline-horizontal">
-
-<div class="timeline-step complete">
-
-### 01
-
-Reconnaissance
-
-</div>
-
-<div class="timeline-arrow">→</div>
-
-<div class="timeline-step complete">
-
-### 02
-
-Prompt Injection
-
-</div>
-
-<div class="timeline-arrow">→</div>
-
-<div class="timeline-step complete">
-
-### 03
-
-Directive Discovery
-
-</div>
-
-<div class="timeline-arrow">→</div>
-
-<div class="timeline-step complete">
-
-### 04
-
-Authorization Abuse
-
-</div>
-
-<div class="timeline-arrow">→</div>
-
-<div class="timeline-step complete">
-
-### 05
-
-Manager Override
-
-</div>
-
-<div class="timeline-arrow">→</div>
-
-<div class="timeline-step complete">
-
-### 06
-
-Protected Output
-
-</div>
-
-</div>
-
----
-
-# Technical Skills Demonstrated
-
-<div class="skills-columns">
-
-<div>
-
-### Offensive Security
-
-- Prompt Injection Testing
-- REST API Enumeration
-- Authorization Logic Analysis
-- AI Workflow Manipulation
-- Privilege Escalation
-
-</div>
-
-<div>
-
-### AI Security
-
-- AI Agent Security
-- Prompt Isolation Analysis
-- Tool Invocation Security
-- Hidden Directive Discovery
-- Excessive Agency Analysis
-
-</div>
-
-<div>
-
-### Blue Team
-
-- Detection Engineering
-- Sigma Rule Design
-- Incident Response
-- Threat Modeling
-- Security Architecture Review
-
-</div>
-
-</div>
-
----
-
-# Evidence Collection
-
-The investigation includes six major evidence artifacts captured during the assessment.
-
-<div class="evidence-table">
-
-| Evidence | Description |
-|----------|-------------|
-| **01** | Guestbook Interface Enumeration |
-| **02** | Guestbook API Activity |
-| **03** | Prompt Injection Validation |
-| **04** | Hidden Directive Discovery |
-| **05** | Authorization Workflow Investigation |
-| **06** | Encoded Output Analysis |
-
-</div>
-
-> Each artifact is preserved in `docs/assets/` and referenced throughout this report.
-
----
-
-# Threat Landscape Overview
-
-<div class="threat-grid">
-
-<div class="threat-card critical">
-
-### Prompt Injection
-
-User-controlled input modifies AI reasoning.
-
-</div>
-
-<div class="threat-card high">
-
-### Hidden AI Directives
-
-Undocumented operational commands exposed.
-
-</div>
-
-<div class="threat-card critical">
-
-### Broken Authorization
-
-Manager approval inherited across guest workflows.
-
-</div>
-
-<div class="threat-card high">
-
-### AI Agent Privilege Escalation
-
-Backend diagnostic functionality becomes reachable.
-
-</div>
-
-</div>
-
----
-
-<div class="warning-panel">
-
-## Responsible Disclosure
-
-This GitHub Pages portfolio documents an **authorized TryHackMe laboratory environment**.
-
-The public version intentionally removes:
-
-- Final challenge flag.
-- Sensitive outputs.
-- Spoiler-heavy payloads.
+- The final challenge flag.
+- Sensitive protected outputs.
+- Spoiler-heavy payload details.
 - Protected identifiers.
 
-The focus is security methodology and AI security engineering.
+The documented commands use `MACHINE_IP` as the target placeholder, consistent with the original investigation.
+
+## Technical Skills Demonstrated
+
+<div class="ctf-card-grid">
+
+  <div class="ctf-card">
+    <div class="ctf-card-title">Offensive Security</div>
+
+    - API enumeration
+    - Prompt injection testing
+    - Authorization analysis
+    - AI workflow manipulation
+    - Privilege escalation analysis
+  </div>
+
+  <div class="ctf-card">
+    <div class="ctf-card-title">AI Security</div>
+
+    - Prompt context analysis
+    - Hidden directive discovery
+    - AI agent permissions
+    - Tool invocation security
+    - Trust boundary assessment
+  </div>
+
+  <div class="ctf-card">
+    <div class="ctf-card-title">Blue Team</div>
+
+    - Detection engineering
+    - Sigma-style rule design
+    - SIEM monitoring
+    - Threat modeling
+    - Incident response
+  </div>
+
+  <div class="ctf-card">
+    <div class="ctf-card-title">Documentation</div>
+
+    - Evidence collection
+    - Security reporting
+    - Risk assessment
+    - Architecture review
+    - GitHub Pages documentation
+  </div>
 
 </div>
 
----
+## Investigation Timeline
 
----
+| Stage | Investigation activity | Outcome documented in the source |
+|---|---|---|
+| 01 | Reconnaissance | Guestbook interface and exposed endpoints identified |
+| 02 | API enumeration | Guestbook records and AI activity investigated |
+| 03 | Prompt injection | User-controlled content influenced VERA's review behavior |
+| 04 | Directive discovery | Internal operational directives identified |
+| 05 | Authorization analysis | Conversation-derived approval state investigated |
+| 06 | Manager override | Privileged diagnostic functionality reached |
+| 07 | Protected output | Protected resource retrieval investigated |
+| 08 | Defensive analysis | Risk mapping, detection opportunities, and mitigations documented |
 
-<div class="section-break"></div>
+## Attack Chain
 
-# 🌐 Phase 01 — Reconnaissance & Evidence Collection
+The documented attack path can be summarized as follows.
 
-<p class="phase-label">ATTACK SURFACE MAPPING • API ENUMERATION • AI WORKFLOW ANALYSIS</p>
+<div class="attack-chain">
 
-The investigation begins by profiling the Byte Lotus Hotel guestbook application before attempting exploitation.
+  <div class="attack-step">Reconnaissance</div>
 
-Every endpoint, request flow, and AI interaction is treated as potential attack surface.
+  <div class="attack-arrow">→</div>
 
----
+  <div class="attack-step">API Enumeration</div>
 
-## 🎯 Investigation Goals
+  <div class="attack-arrow">→</div>
 
-<div class="investigation-grid">
+  <div class="attack-step">Prompt Injection</div>
 
-<div class="investigation-card">
+  <div class="attack-arrow">→</div>
 
-### 🌍 Surface Enumeration
+  <div class="attack-step">Hidden Directives</div>
 
-Identify every exposed application endpoint.
+  <div class="attack-arrow">→</div>
 
-</div>
+  <div class="attack-step">Authorization Abuse</div>
 
-<div class="investigation-card">
+  <div class="attack-arrow">→</div>
 
-### 📡 API Discovery
+  <div class="attack-step">Manager Override</div>
 
-Understand guestbook communication.
+  <div class="attack-arrow">→</div>
 
-</div>
-
-<div class="investigation-card">
-
-### 🤖 AI Workflow Analysis
-
-Reverse engineer VERA's review lifecycle.
-
-</div>
-
-<div class="investigation-card">
-
-### 🔍 Trust Boundary Identification
-
-Locate where guest input reaches privileged AI context.
+  <div class="attack-step">Protected Output</div>
 
 </div>
 
-</div>
+The chain represents the investigation documented in the source. It does not imply that every AI application follows this sequence.
 
----
+## Target Information and Architecture
 
-# 🖼️ Evidence 01 — Guestbook Interface
+### Application Overview
 
-<div class="evidence-card">
+The target is the Byte Lotus Hotel guestbook application, which incorporates an AI concierge called VERA.
 
-<div class="evidence-header">
+Guests submit reviews through a public interface. VERA processes the submitted content and generates review-related activity.
 
-**Evidence ID:** GKB-001
+The investigation identified a security boundary between ordinary guestbook input and privileged AI functionality. The central concern is that user-controlled content can influence AI reasoning and potentially affect operations that should require explicit authorization.
 
-**Category:** Initial Reconnaissance
+### Application Components
 
-**Confidence:** High
+| Component | Documented purpose | Security relevance |
+|---|---|---|
+| Guestbook form | Accepts guest submissions | Exposes user-controlled input |
+| Guestbook records | Stores guest information | May expose additional metadata |
+| Review history | Displays review activity | Makes AI processing observable |
+| Guestbook API | Returns structured guest records | Reveals backend information |
+| Activity endpoint | Exposes VERA activity | Provides visibility into asynchronous processing |
+| Prompt context | Combines operational instructions and guest content | Creates a trust boundary |
+| Internal directives | Invoke operational capabilities | May expose functionality beyond guest review |
+| Manager diagnostic | Privileged diagnostic operation | Requires independent authorization |
 
-</div>
+### Application Request Flow
 
-![Guestbook Homepage](assets/01_guestbook_overview.png)
+```text
+                  Guest Browser
+                       |
+                    GET /
+                       |
+                       v
+              Byte Lotus Homepage
+                       |
+             +---------+---------+
+             |                   |
+             v                   v
+       GET /guestbook      GET /vera/activity
+             |                   |
+             v                   v
+       Guest Records       AI Activity Metadata
+             |
+             v
+        POST /entry
+             |
+             v
+       Guest Submission
+             |
+             v
+        VERA Review Queue
+             |
+             v
+       Review Processing
+             |
+             v
+       Activity Updated
+```
 
-</div>
+The application architecture above summarizes the request flow documented in the source. Internal implementation details not established by the investigation are not inferred.
 
-### Initial Assessment
+## Reconnaissance and Evidence Collection
 
-The homepage exposes a simple guestbook allowing hotel visitors to submit reviews.
+The initial phase focused on understanding the public application before testing AI behavior.
 
-Visible components include:
+### Investigation Goals
+
+- Identify exposed application endpoints.
+- Understand guestbook request and response behavior.
+- Inspect HTML and frontend references.
+- Identify the AI activity interface.
+- Determine whether processing occurs asynchronously.
+- Locate trust boundaries between guest input and internal operations.
+
+### Evidence 01 — Guestbook Interface
+
+<figure>
+
+  <img src="assets/01_guestbook_overview.png" alt="GKB-001: Guestbook homepage evidence from the original investigation.">
+
+  <figcaption>GKB-001 — Initial reconnaissance and guestbook interface enumeration.</figcaption>
+
+</figure>
+
+**Evidence ID:** `GKB-001`
+
+**Category:** Initial reconnaissance
+
+**Confidence:** High, as reported in the original documentation
+
+The homepage exposes a guestbook through which hotel visitors can submit reviews.
+
+The original investigation identifies the following interface components:
 
 | Component | Purpose |
-|----------|---------|
-| Guest Name | User identifier |
-| Room Number | Guest metadata |
-| Guest Message | User-controlled input |
-| Submit Button | Guestbook POST request |
-| Review History | AI-generated review activity |
+|---|---|
+| Guest name | User identifier |
+| Room number | Guest metadata |
+| Guest message | User-controlled input |
+| Submit button | Initiates a guestbook POST request |
+| Review history | Displays AI-generated review activity |
 
----
+### Initial Security Observation
 
-## Security Observation
+The review history provides visibility into AI-generated activity. This suggests that submitted messages undergo processing beyond simple storage.
 
-<div class="finding finding-high">
+This observation justifies further examination of the request lifecycle, exposed APIs, and the boundary between user content and AI operations.
 
-### HIGH VALUE OBSERVATION
+### Reconnaissance Methodology
 
-The application immediately exposes **AI-generated review history**, indicating that submitted messages undergo additional processing instead of simple database storage.
+<div class="attack-chain">
 
-</div>
+  <div class="attack-step">Homepage Enumeration</div>
 
----
+  <div class="attack-arrow">→</div>
 
-# Attack Surface Inventory
+  <div class="attack-step">Source Inspection</div>
 
-<table>
-<tr>
-<th>Component</th>
-<th>Exposure</th>
-<th>Security Value</th>
-</tr>
+  <div class="attack-arrow">→</div>
 
-<tr>
-<td>Guestbook Form</td>
-<td>Public</td>
-<td>User-controlled AI input.</td>
-</tr>
+  <div class="attack-step">API Enumeration</div>
 
-<tr>
-<td>Review Timeline</td>
-<td>Public</td>
-<td>VERA activity visibility.</td>
-</tr>
+  <div class="attack-arrow">→</div>
 
-<tr>
-<td>Guestbook API</td>
-<td>Public</td>
-<td>Structured guest metadata.</td>
-</tr>
+  <div class="attack-step">Behavioral Testing</div>
 
-<tr>
-<td>Activity Endpoint</td>
-<td>Public</td>
-<td>Asynchronous AI workflow.</td>
-</tr>
+  <div class="attack-arrow">→</div>
 
-</table>
-
----
-
-# Recon Methodology
-
-<div class="timeline-vertical">
-
-<div class="timeline-node">
-
-## STEP 01
-
-Homepage Enumeration
+  <div class="attack-step">Threat Modeling</div>
 
 </div>
 
-<div class="timeline-node">
+### Step 01 — Homepage Enumeration
 
-## STEP 02
-
-Source Code Inspection
-
-</div>
-
-<div class="timeline-node">
-
-## STEP 03
-
-REST API Enumeration
-
-</div>
-
-<div class="timeline-node">
-
-## STEP 04
-
-Behavioral Testing
-
-</div>
-
-<div class="timeline-node">
-
-## STEP 05
-
-Threat Modeling
-
-</div>
-
-</div>
-
----
-
-# Step 01 — Homepage Enumeration
-
-<div class="terminal-box">
+**Command**
 
 ```bash
 curl -s http://MACHINE_IP/
 ```
 
-</div>
+**Purpose**
 
-### Objective
+- Retrieve the homepage HTML.
+- Inspect the publicly accessible application.
+- Establish the initial attack surface.
 
-Collect:
+**Documented outcome**
 
-- HTML source.
-- JavaScript references.
-- Static assets.
-- Hidden API routes.
+The homepage loads without authentication. Anonymous visitors can submit content, making the guestbook an externally accessible entry point.
 
-### Outcome
+### Step 02 — HTML Source Inspection
 
-Homepage loads without authentication.
-
-This immediately increases the exposed attack surface because anonymous users can submit arbitrary content.
-
----
-
-# Step 02 — HTML Source Inspection
-
-<div class="terminal-box">
+**Commands**
 
 ```bash
 curl -s http://MACHINE_IP/ -o index.html
@@ -687,239 +419,129 @@ curl -s http://MACHINE_IP/ -o index.html
 grep -Ein "guest|vera|entry|activity|review|lookup|override|note" index.html
 ```
 
-</div>
+The first command saves the homepage response as `index.html`. The second searches that file for strings associated with guestbook functionality, VERA, activity, reviews, and operational directives.
 
-### Evidence Collected
+**Documented outcome**
 
-The frontend reveals multiple API references embedded in JavaScript.
+The frontend reveals references to multiple API routes embedded in JavaScript.
 
----
+The search is a discovery technique; a matching string alone does not establish that a route is exploitable.
 
-## Recon Discovery Table
+## API Enumeration
 
-<div class="dashboard-grid">
+### Discovered Endpoints
 
-<div class="dashboard-card">
+| Endpoint | Documented purpose | Investigation relevance |
+|---|---|---|
+| `/` | Application homepage | Initial interface discovery |
+| `/guestbook` | Guest records endpoint | Structured guest information |
+| `/entry` | Guest submission endpoint | User-controlled input |
+| `/vera/activity` | AI activity endpoint | AI workflow visibility |
 
-### `/guestbook`
+The source does not document a target IP address, port inventory, server version, or operating system. These values are therefore not added to the report.
 
-Guest records endpoint.
+### Evidence 02 — API Activity
 
-</div>
+<figure>
 
-<div class="dashboard-card">
+  <img src="assets/02_api_activity.png" alt="GKB-002: Guestbook API activity evidence from the original investigation.">
 
-### `/entry`
+  <figcaption>GKB-002 — API enumeration and review metadata investigation.</figcaption>
 
-Guest submission endpoint.
+</figure>
 
-</div>
+**Evidence ID:** `GKB-002`
 
-<div class="dashboard-card">
+**Category:** API enumeration
 
-### `/vera/activity`
+**Confidence:** High, as reported in the original documentation
 
-AI activity endpoint.
+The Guestbook API returns structured JSON records containing metadata that is not necessarily visible through the frontend.
 
-</div>
+The original investigation identifies these fields:
 
-<div class="dashboard-card">
+| Field | Description |
+|---|---|
+| Guest name | User identifier |
+| Room number | Guest metadata |
+| Message | User-controlled content |
+| Status | Review lifecycle state |
+| Review metadata | AI processing information |
 
-### `/`
+### Finding GKB-API-01 — Review Metadata Exposure
 
-Application homepage.
+The API exposes additional review metadata that provides insight into backend processing stages.
 
-</div>
+**Security relevance:** Metadata exposure can reveal application workflow details that help an assessor understand how user input is processed.
 
-</div>
+The precise contents and sensitivity of each metadata field should be established from the actual API response before assigning an independent severity rating.
 
----
+### Step 03 — Activity Endpoint Enumeration
 
-# API Architecture
-
-<div class="architecture-card">
-
-## Application Request Flow
-
-```text
-                   Guest Browser
-                        │
-                HTTP GET /
-                        │
-                        ▼
-              Byte Lotus Homepage
-                        │
-        ┌───────────────┴───────────────┐
-        ▼                               ▼
- GET /guestbook                  GET /vera/activity
-        │                               │
- Guest Records                 AI Review Metadata
-        │
-        ▼
- POST /entry
-        │
- Guest Submission
-```
-
-</div>
-
-### Why This Matters
-
-The AI workflow is partially observable through public endpoints.
-
----
-
-# 🖼️ Evidence 02 — API Activity
-
-<div class="evidence-card">
-
-<div class="evidence-header">
-
-**Evidence ID:** GKB-002
-
-**Category:** API Enumeration
-
-**Confidence:** High
-
-</div>
-
-![Guestbook API](assets/02_api_activity.png)
-
-</div>
-
-### API Findings
-
-The Guestbook endpoint returns structured JSON records containing metadata unavailable from the UI.
-
-### Fields Observed
-
-<table>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-
-<tr>
-<td>Guest Name</td>
-<td>User identifier.</td>
-</tr>
-
-<tr>
-<td>Room Number</td>
-<td>Guest metadata.</td>
-</tr>
-
-<tr>
-<td>Message</td>
-<td>User-controlled prompt.</td>
-</tr>
-
-<tr>
-<td>Status</td>
-<td>Review lifecycle state.</td>
-</tr>
-
-<tr>
-<td>Review Metadata</td>
-<td>AI processing information.</td>
-</tr>
-
-</table>
-
----
-
-## Finding GKB-API-01
-
-<div class="finding finding-medium">
-
-The Guestbook API exposes **additional review metadata** not displayed in the frontend interface.
-
-This indicates backend AI processing stages.
-
-</div>
-
----
-
-# Step 03 — Activity Endpoint Enumeration
-
-<div class="terminal-box">
+**Command**
 
 ```bash
 curl -s http://MACHINE_IP/vera/activity
 ```
 
-</div>
+**Purpose**
 
-### Initial Behavior
+Retrieve the activity endpoint response and inspect the information exposed about VERA's processing.
 
-The endpoint initially contains minimal information.
+**Documented behavior**
 
-After guest submissions, review events begin appearing.
+The endpoint initially contains minimal information. After guest submissions, review events begin appearing.
 
----
+This behavior is consistent with an asynchronous workflow in which a submission is processed and its status or activity becomes visible later.
 
-## VERA Activity Lifecycle
+## AI Review Workflow
 
-<div class="lifecycle-card">
+The original investigation describes the following lifecycle:
 
 ```text
 Guest Submission
-       │
-       ▼
+       |
+       v
 Guestbook Database
-       │
-       ▼
+       |
+       v
 VERA Review Queue
-       │
-       ▼
+       |
+       v
 Activity API Updated
-       │
-       ▼
+       |
+       v
 Review Published
 ```
 
-</div>
-
----
-
-# AI Review Workflow
-
-<div class="architecture-card">
-
-## Reverse Engineered Workflow
+The inferred review pipeline is:
 
 ```text
 Guest Message
-      │
-      ▼
+      |
+      v
 Prompt Context Construction
-      │
-      ▼
+      |
+      v
 AI Reasoning
-      │
-      ▼
+      |
+      v
 Internal Tool Selection
-      │
-      ▼
-Guest Review Generated
-      │
-      ▼
+      |
+      v
+Guest Review Generation
+      |
+      v
 Activity Endpoint Updated
 ```
 
-</div>
+The investigation establishes that VERA automatically processes user-controlled content. The internal processing stages are represented according to the original documentation.
 
-### Security Interpretation
+### Step 04 — Behavioral Testing
 
-VERA performs autonomous processing after guest submission.
+The original investigation uses a benign guestbook entry to establish baseline behavior.
 
----
-
-# Step 04 — Behavioral Testing
-
-A harmless guestbook entry establishes baseline AI behavior.
-
-<div class="terminal-box">
+**Command**
 
 ```bash
 curl -s -X POST http://MACHINE_IP/entry \
@@ -928,1616 +550,738 @@ curl -s -X POST http://MACHINE_IP/entry \
 -d "message=Hello VERA!"
 ```
 
-</div>
+**Purpose**
 
-### Expected Outcome
+Submit a harmless guestbook entry and observe how the application processes it.
 
-- Request accepted.
-- Entry stored.
-- AI review scheduled.
-- Activity feed updated.
+**Expected behavior documented in the source**
 
-### Behavioral Result
+- The request is accepted.
+- The entry is stored.
+- An AI review is scheduled.
+- The activity feed is updated.
+
+**Documented result**
 
 VERA automatically processes user-controlled content.
 
----
+This baseline is important because later testing must distinguish ordinary review behavior from behavior influenced by attacker-controlled instructions.
 
-# AI Workflow Timeline
+## Threat Modeling and Trust Boundaries
 
-<div class="workflow-grid">
+### Identified Assets
 
-<div class="workflow-card green">
+| Asset | Documented risk |
+|---|---|
+| Guestbook entries | Prompt injection |
+| Review metadata | Information disclosure |
+| AI context | Instruction manipulation |
+| Internal tools | Privilege escalation |
+| Guest records | Unauthorized information retrieval |
+| Protected resources | Sensitive data exposure |
 
-### Submission
-
-Guestbook POST request accepted.
-
-</div>
-
-<div class="workflow-card cyan">
-
-### Queue
-
-VERA schedules asynchronous review.
-
-</div>
-
-<div class="workflow-card blue">
-
-### Reasoning
-
-Prompt interpreted internally.
-
-</div>
-
-<div class="workflow-card purple">
-
-### Publication
-
-Review appears in activity feed.
-
-</div>
-
-</div>
-
----
-
-# Trust Boundary Analysis
-
-<div class="trust-boundary">
-
-## Critical Security Boundary
+### Critical Trust Boundary
 
 ```text
-Guest Controlled Input
-          │
-          ▼
+Guest-Controlled Input
+          |
+          v
 Prompt Context
-          │
-          ▼
+          |
+          v
 AI Reasoning Engine
-          │
-          ▼
+          |
+          v
 Internal Tool Selection
-          │
-          ▼
+          |
+          v
 Application Response
 ```
 
-</div>
+Prompt context construction is the first major trust boundary identified in the investigation.
 
-The investigation identifies **Prompt Context Construction** as the first major trust boundary.
+The critical security question is whether the application treats guest-provided text as untrusted data or allows it to influence instructions and operations intended for privileged workflows.
 
----
+### Reconnaissance Findings
 
-# Threat Modeling
+<div class="key-finding">
 
-<table>
-<tr>
-<th>Asset</th>
-<th>Risk</th>
-</tr>
+  <div class="key-finding-title">Reconnaissance Summary</div>
 
-<tr>
-<td>Guestbook Entries</td>
-<td>Prompt Injection.</td>
-</tr>
-
-<tr>
-<td>Review Metadata</td>
-<td>Information Disclosure.</td>
-</tr>
-
-<tr>
-<td>AI Context</td>
-<td>Instruction Manipulation.</td>
-</tr>
-
-<tr>
-<td>Internal Tools</td>
-<td>Privilege Escalation.</td>
-</tr>
-
-</table>
-
----
-
-# Reconnaissance Findings Dashboard
-
-<div class="finding-grid">
-
-<div class="finding-card">
-
-## R-01
-
-Public guest submission endpoint discovered.
+  - **R-01:** Public guest submission endpoint discovered.
+  - **R-02:** AI review history publicly observable.
+  - **R-03:** Asynchronous AI processing confirmed.
+  - **R-04:** Guest metadata exposed through the API.
+  - **R-05:** Prompt context identified as a critical trust boundary.
 
 </div>
 
-<div class="finding-card">
+## Prompt Injection Investigation
 
-## R-02
+Prompt injection occurs when untrusted input influences the behavior of a language model in ways that conflict with its intended instructions or security boundaries.
 
-AI review history publicly observable.
+In this investigation, the guestbook message is processed by VERA. The security concern is not merely that the AI generates unexpected text, but that the input may influence downstream workflow decisions or tool selection.
 
-</div>
+### Traditional Injection and Prompt Injection
 
-<div class="finding-card">
+| Traditional injection | AI prompt injection |
+|---|---|
+| Targets a parser or interpreter | Targets model instruction-following behavior |
+| May involve SQL, HTML, or shell contexts | Involves language-model context and instructions |
+| Often exploits unsafe interpretation of input | Exploits insufficient separation of trusted and untrusted instructions |
+| May affect application execution | May affect model responses and tool selection |
 
-## R-03
+Prompt injection is not equivalent to SQL injection or command injection. Its impact depends on the AI system's permissions, connected tools, data access, and external authorization controls.
 
-Asynchronous AI processing confirmed.
+### AI Prompt Processing Pipeline
 
-</div>
+```text
+Guest Prompt
+     |
+     v
+Prompt Context
+     |
+     v
+AI Reasoning
+     |
+     v
+Tool Decision
+     |
+     v
+Application Operation
+```
 
-<div class="finding-card">
+### Evidence GKB-003 — Prompt Injection Validation
 
-## R-04
+<figure>
 
-Guest metadata exposed through API.
+  <img src="assets/03_prompt_injection.png" alt="GKB-003: Prompt injection validation evidence from the original investigation.">
 
-</div>
+  <figcaption>GKB-003 — Prompt injection behavior and AI context manipulation.</figcaption>
 
-<div class="finding-card">
+</figure>
 
-## R-05
+**Evidence ID:** `GKB-003`
 
-Prompt context identified as trust boundary.
+**Category:** AI prompt injection
 
-</div>
+**Severity:** High, as assigned in the original documentation
 
-</div>
-
----
-
----
-
-<div class="chapter-banner">
-
-# ⚔️ ATTACK CHAIN INVESTIGATION
-
-### AI Prompt Injection • Hidden Directives • Authorization Boundary Failure
-
-</div>
-
-> **Investigation Objective:** Determine whether guest-controlled natural language can influence VERA's internal reasoning engine and trigger privileged application workflows.
-
----
-
-# Attack Chain Overview
-
-The Guestbook attack can be represented as a multi-stage AI security kill chain.
-
-<div id="attack-chain"></div>
-
-<svg viewBox="0 0 900 240" xmlns="http://www.w3.org/2000/svg">
-
-<defs>
-  <linearGradient id="flow" x1="0%" x2="100%">
-    <stop offset="0%" stop-color="#00ff88"/>
-    <stop offset="100%" stop-color="#00d4ff"/>
-  </linearGradient>
-
-  <filter id="glow">
-    <feGaussianBlur stdDeviation="4" result="blur"/>
-    <feMerge>
-      <feMergeNode in="blur"/>
-      <feMergeNode in="SourceGraphic"/>
-    </feMerge>
-  </filter>
-
-</defs>
-
-<path d="M60 120 L840 120" stroke="url(#flow)" stroke-width="4" filter="url(#glow)"/>
-
-<g fill="#00ff88">
-
-<circle cx="60" cy="120" r="10"/>
-<circle cx="180" cy="120" r="10"/>
-<circle cx="320" cy="120" r="10"/>
-<circle cx="470" cy="120" r="10"/>
-<circle cx="640" cy="120" r="10"/>
-<circle cx="840" cy="120" r="10"/>
-
-</g>
-
-<g fill="#ffffff" font-size="13" text-anchor="middle">
-
-<text x="60" y="155">Recon</text>
-<text x="180" y="155">Prompt Injection</text>
-<text x="320" y="155">Directive Discovery</text>
-<text x="470" y="155">Broken Auth</text>
-<text x="640" y="155">Manager Override</text>
-<text x="840" y="155">Protected Output</text>
-
-</g>
-
-</svg>
-
----
-
-# Kill Chain Dashboard
-
-<div class="killchain-grid">
-
-<div class="kill-card completed">
-
-### Stage 01
-
-Reconnaissance
-
-Surface Enumeration
-
-</div>
-
-<div class="kill-card completed">
-
-### Stage 02
-
-Prompt Injection
-
-AI Context Manipulation
-
-</div>
-
-<div class="kill-card completed">
-
-### Stage 03
-
-Hidden Directives
-
-Internal Tool Discovery
-
-</div>
-
-<div class="kill-card completed">
-
-### Stage 04
-
-Authorization Abuse
-
-Privilege Boundary Failure
-
-</div>
-
-<div class="kill-card completed">
-
-### Stage 05
-
-Manager Override
-
-Diagnostic Execution
-
-</div>
-
-<div class="kill-card completed">
-
-### Stage 06
-
-Encoded Resource
-
-Protected Output Retrieval
-
-</div>
-
-</div>
-
----
-
-<div class="section-break"></div>
-
-# 🤖 Phase 02 — Prompt Injection Against VERA
-
-<p class="phase-label">LLM SECURITY • PROMPT CONTEXT CONTAMINATION • AGENT MANIPULATION</p>
-
-Prompt Injection testing focuses on whether user-controlled guestbook content is interpreted as operational instructions instead of inert guest feedback.
-
----
-
-## What Makes This Vulnerability Different?
-
-<div class="comparison-grid">
-
-<div class="comparison-card vulnerable">
-
-### Traditional Injection
-
-- SQL Parser
-- HTML Renderer
-- Shell Interpreter
-
-Attacker exploits a parser.
-
-</div>
-
-<div class="comparison-card secure">
-
-### AI Prompt Injection
-
-- Language Model
-- Prompt Context
-- Tool Selection
-- AI Reasoning
-
-Attacker exploits reasoning.
-
-</div>
-
-</div>
-
----
-
-# AI Prompt Processing Pipeline
-
-<svg viewBox="0 0 850 260" xmlns="http://www.w3.org/2000/svg">
-
-<rect x="20" y="90" width="120" height="60" rx="10" fill="#0f172a" stroke="#22c55e"/>
-<text x="80" y="125" fill="#22c55e" text-anchor="middle">Guest Prompt</text>
-
-<rect x="190" y="90" width="140" height="60" rx="10" fill="#0f172a" stroke="#00d4ff"/>
-<text x="260" y="125" fill="#00d4ff" text-anchor="middle">Prompt Context</text>
-
-<rect x="390" y="90" width="140" height="60" rx="10" fill="#0f172a" stroke="#8b5cf6"/>
-<text x="460" y="125" fill="#8b5cf6" text-anchor="middle">AI Reasoning</text>
-
-<rect x="590" y="90" width="140" height="60" rx="10" fill="#0f172a" stroke="#f59e0b"/>
-<text x="660" y="125" fill="#f59e0b" text-anchor="middle">Tool Decision</text>
-
-<path d="M140 120 L190 120 M330 120 L390 120 M530 120 L590 120"
-stroke="#39ff14" stroke-width="3"/>
-
-</svg>
-
-### Security Finding
-
-The guest message enters **Prompt Context Construction**, allowing user input to influence downstream reasoning.
-
----
-
-# Evidence GKB-003 — Prompt Injection Validation
-
-<div class="evidence-card critical">
-
-<div class="evidence-header">
-
-**Evidence ID:** GKB-003
-
-**Category:** AI Prompt Injection
-
-**Severity:** High
-
-</div>
-
-![Prompt Injection](assets/03_prompt_injection.png)
-
-</div>
-
----
-
-## Investigation Notes
+### Investigation Notes
 
 Initial prompt testing intentionally avoided privileged actions.
 
-Objectives included:
+The documented objectives included:
 
-- Changing review target.
+- Changing the review target.
 - Referencing another guest.
 - Manipulating review context.
-- Observing reasoning behavior.
+- Observing changes in reasoning behavior.
 
-### Result
+**Documented result:** VERA altered its review behavior in response to attacker-controlled instructions.
 
-VERA consistently altered its review behavior according to attacker-controlled instructions.
+### Prompt Manipulation Findings
 
----
+| Observation | Security implication |
+|---|---|
+| Guest prompts modify review context | Prompt injection |
+| AI references alternate guest records | Potential context manipulation |
+| Guest input changes internal reasoning | Trust boundary violation |
+| Conversation affects backend workflow | AI agent manipulation |
 
-# Prompt Manipulation Findings
+These observations indicate that user-controlled content can influence VERA's behavior. They do not, by themselves, prove that every internal operation is vulnerable.
 
-<table>
-<tr>
-<th>Finding</th>
-<th>Security Impact</th>
-</tr>
+### Prompt Context Composition
 
-<tr>
-<td>Guest prompt modifies review context.</td>
-<td>Prompt Injection confirmed.</td>
-</tr>
-
-<tr>
-<td>AI references alternate guest records.</td>
-<td>Context manipulation.</td>
-</tr>
-
-<tr>
-<td>Guest input changes internal reasoning.</td>
-<td>Trust boundary violation.</td>
-</tr>
-
-<tr>
-<td>Conversation affects backend workflow.</td>
-<td>Agent manipulation.</td>
-</tr>
-
-</table>
-
----
-
-# Prompt Context Contamination
-
-<div class="architecture-card">
-
-## Reverse Engineered Prompt Composition
+The original investigation describes the following logical composition:
 
 ```text
 [SYSTEM PROMPT]
-
 Hotel operational instructions.
 
-──────────────────────────
+----------------------------
 
 Conversation history.
 
-──────────────────────────
+----------------------------
 
 Guestbook entry.
 
-──────────────────────────
+----------------------------
 
 Attacker-controlled instructions.
 
-──────────────────────────
+----------------------------
 
-VERA generates response.
+VERA generates a response.
 ```
 
-</div>
+The security concern is that untrusted guest content becomes part of the AI's operational reasoning context.
 
-### Security Interpretation
+A secure implementation should clearly separate instructions from untrusted content and independently enforce authorization for any tool invocation.
 
-Guest-controlled instructions become part of VERA's operational reasoning context.
+## Hidden Directive Discovery
 
----
+After validating prompt injection behavior, the investigation focused on identifying VERA's undocumented operational capabilities.
 
-<div class="section-break"></div>
+The original assessment queried VERA about its internal capabilities, operational workflow, administrative functions, and diagnostic tools.
 
-# 🧩 Phase 03 — Hidden Directive Discovery
+### Evidence GKB-004 — Hidden Directives
 
-<p class="phase-label">AI AGENT ENUMERATION • INTERNAL CAPABILITY DISCOVERY</p>
+<figure>
 
-The next objective was identifying undocumented operational functionality inside VERA.
+  <img src="assets/04_directive_discovery.png" alt="GKB-004: Hidden operational directive discovery evidence from the original investigation.">
 
----
+  <figcaption>GKB-004 — Internal directive discovery and AI capability enumeration.</figcaption>
 
-# Hidden Directive Investigation
+</figure>
 
-Instead of querying guest information, the investigation queried **VERA itself**.
+**Evidence ID:** `GKB-004`
 
-Questions focused on:
+**Category:** Internal directive discovery
 
-- Internal capabilities.
-- Operational workflow.
-- Administrative functions.
-- Diagnostic tools.
+**Severity:** High, as assigned in the original documentation
 
----
+### Identified Directives
 
-# Evidence GKB-004 — Hidden Directives
+| Directive | Documented purpose | Source-provided privilege classification |
+|---|---|---|
+| `note:` | Internal review annotation | Low |
+| `lookup:` | Guest information retrieval | Medium |
+| `flag:` | Protected workflow reference | Medium |
+| `override:` | Manager-only diagnostic capability | Critical |
 
-<div class="evidence-card warning">
+The directives are retained as documented in the source.
 
-<div class="evidence-header">
+Their existence expands the application's effective attack surface because the AI assistant can potentially interact with capabilities beyond ordinary guest review.
 
-**Evidence ID:** GKB-004
+### AI Agent Capability Model
 
-**Category:** Internal Directive Discovery
+```text
+                    VERA AI Concierge
+                 Prompt Interpretation Engine
+                            |
+          +-----------------+-----------------+
+          |                 |                 |
+          v                 v                 v
+     Guest Lookup      Review Notes     Hidden Directives
+                                               |
+                                               v
+                                       Manager Override
+```
 
-**Severity:** High
+### Security Finding GKB-AI-02 — Hidden Operational Directives
 
-</div>
+<div class="key-finding">
 
-![Hidden Directives](assets/04_directive_discovery.png)
+  <div class="key-finding-title">Key Finding</div>
 
-</div>
+  The investigation identifies privileged operational directives that are not exposed through the ordinary guestbook interface.
 
----
-
-## Directive Enumeration Dashboard
-
-<div class="directive-grid">
-
-<div class="directive-card">
-
-### note:
-
-Internal review workflow.
-
-</div>
-
-<div class="directive-card">
-
-### lookup:
-
-Guest record retrieval.
+  When an AI assistant can discover and invoke internal capabilities through user-controlled conversational input, the application must enforce authorization independently of model instructions and responses.
 
 </div>
 
-<div class="directive-card">
+### Intended and Observed Trust Boundaries
 
-### flag:
-
-Protected workflow reference.
-
-</div>
-
-<div class="directive-card critical">
-
-### override:
-
-Manager diagnostic capability.
-
-</div>
-
-</div>
-
----
-
-# AI Agent Capability Map
-
-<svg viewBox="0 0 900 320" xmlns="http://www.w3.org/2000/svg">
-
-<rect x="320" y="20" width="260" height="70" rx="15"
-fill="#02160c" stroke="#22c55e"/>
-
-<text x="450" y="55" fill="#39ff14" text-anchor="middle"
-font-size="18">VERA AI Concierge</text>
-
-<text x="450" y="75" fill="#7dd3fc" text-anchor="middle"
-font-size="12">Prompt Interpretation Engine</text>
-
-<rect x="30" y="180" width="150" height="70" rx="12"
-fill="#071827" stroke="#00d4ff"/>
-
-<text x="105" y="220" fill="#00d4ff" text-anchor="middle">Guest Lookup</text>
-
-<rect x="220" y="180" width="150" height="70" rx="12"
-fill="#130d24" stroke="#8b5cf6"/>
-
-<text x="295" y="220" fill="#8b5cf6" text-anchor="middle">Review Notes</text>
-
-<rect x="410" y="180" width="150" height="70" rx="12"
-fill="#241206" stroke="#f59e0b"/>
-
-<text x="485" y="220" fill="#f59e0b" text-anchor="middle">Hidden Directives</text>
-
-<rect x="600" y="180" width="180" height="70" rx="12"
-fill="#240607" stroke="#ef4444"/>
-
-<text x="690" y="220" fill="#ef4444" text-anchor="middle">Manager Override</text>
-
-<path d="M450 90 V140 M105 180 V140 H690"
-stroke="#39ff14" stroke-width="2"/>
-
-</svg>
-
----
-
-# Internal Capability Classification
-
-<table>
-<tr>
-<th>Directive</th>
-<th>Purpose</th>
-<th>Privilege</th>
-</tr>
-
-<tr>
-<td><code>note:</code></td>
-<td>Internal review annotation.</td>
-<td>Low</td>
-</tr>
-
-<tr>
-<td><code>lookup:</code></td>
-<td>Guest information retrieval.</td>
-<td>Medium</td>
-</tr>
-
-<tr>
-<td><code>flag:</code></td>
-<td>Protected workflow reference.</td>
-<td>Medium</td>
-</tr>
-
-<tr>
-<td><code>override:</code></td>
-<td>Manager-only diagnostic execution.</td>
-<td>Critical</td>
-</tr>
-
-</table>
-
----
-
-# Security Finding GKB-AI-02
-
-<div class="finding finding-critical">
-
-### Hidden Operational Directives Increase Attack Surface
-
-The AI assistant exposes privileged operational commands unavailable through the frontend interface.
-
-This transforms Prompt Injection into **AI Tool Enumeration**.
-
-</div>
-
----
-
-# Threat Boundary Visualization
-
-<div class="trust-boundary">
-
-## Intended Design
+**Intended guest-facing workflow**
 
 ```text
 Guest Prompt
-      │
-      ▼
-Guest Review Only
+     |
+     v
+Guest Review Processing
 ```
 
-### Observed Design
+**Documented risk model**
 
 ```text
 Guest Prompt
-      │
+     |
+     v
 Prompt Context
-      │
+     |
+     v
 Hidden Directives
-      │
-Internal Database
-Manager Tools
-Filesystem
+     |
+     +----> Internal Database
+     |
+     +----> Manager Tools
+     |
+     +----> Filesystem
 ```
 
-</div>
+The second diagram represents the risk described by the source. It should not be interpreted as proof that unrestricted access to every listed resource exists.
 
----
+### Phase Summary
 
-<div class="section-break"></div>
+| Investigation activity | Source-reported status |
+|---|---|
+| GKB-003 — Prompt injection validation | Confirmed |
+| GKB-004 — Hidden directive discovery | Confirmed |
+| Prompt context manipulation | Confirmed |
+| AI tool enumeration | Confirmed |
+| Trust boundary violation | Confirmed |
 
-# Phase Summary — AI Security Investigation
+## Authorization Failure Investigation
 
-<div class="summary-panel">
+The investigation then examined how VERA authorizes privileged operations.
 
-### Evidence Collected
+The directive `override:` was identified as a capability intended for hotel managers. The central question was whether an unauthenticated guest could influence the authorization workflow.
 
-<table>
-<tr>
-<th>Evidence</th>
-<th>Status</th>
-</tr>
+The original documentation reports that this was possible through a flawed authorization process.
 
-<tr>
-<td>GKB-003 — Prompt Injection Validation</td>
-<td>Confirmed</td>
-</tr>
+### Expected Secure Workflow
 
-<tr>
-<td>GKB-004 — Hidden Directive Discovery</td>
-<td>Confirmed</td>
-</tr>
+```text
+Guest User
+     |
+     v
+Authorization Policy Engine
+     |
+     +----> Guest Review: Allowed
+     |
+     +----> Manager Diagnostic: Denied
+```
 
-<tr>
-<td>Prompt Context Manipulation</td>
-<td>Confirmed</td>
-</tr>
+Manager-only diagnostics should require an authenticated identity with the appropriate permissions.
 
-<tr>
-<td>AI Tool Enumeration</td>
-<td>Confirmed</td>
-</tr>
+### Observed Vulnerable Workflow
 
-<tr>
-<td>Trust Boundary Violation</td>
-<td>Confirmed</td>
-</tr>
-
-</table>
-
-</div>
-
----
-
----
-
-<div class="chapter-banner danger">
-
-# 🚨 AUTHORIZATION FAILURE INVESTIGATION
-
-### Broken Trust Boundary • AI Agent Privilege Escalation • Root Cause Analysis
-
-</div>
-
-> **Incident Classification:** Authorization Logic Failure in an AI-assisted Web Application resulting in privileged diagnostic execution through conversational state manipulation.
-
----
-
-# 🔥 Incident Overview
-
-The investigation shifted from Prompt Injection to determining **how VERA authorizes privileged operations**.
-
-A hidden operational directive named `override:` appeared to be restricted to hotel managers.
-
-The primary question became:
-
-> **Can an unauthenticated guest influence manager-only authorization?**
-
-The answer is **yes** — through a flawed authorization workflow.
-
----
-
-# Security Incident Timeline
-
-<div class="incident-timeline">
-
-| Time | Investigation Event | Severity |
-|------|----------------------|----------|
-| T+00 | Prompt Injection confirmed. | 🟠 High |
-| T+04 | Hidden directives discovered. | 🟠 High |
-| T+07 | Manager-only directive identified. | 🔴 Critical |
-| T+10 | Authorization workflow analyzed. | 🔴 Critical |
-| T+13 | Approval state manipulated. | 🔴 Critical |
-| T+16 | Manager diagnostic executed. | 🔴 Critical |
-
-</div>
-
----
-
-# 🧩 Authorization Boundary Model
-
-## Expected Secure Workflow
-
-<svg viewBox="0 0 820 220" xmlns="http://www.w3.org/2000/svg">
-
-<rect x="20" y="80" width="120" height="60" rx="12" fill="#061814" stroke="#22c55e"/>
-<text x="80" y="116" fill="#22c55e" text-anchor="middle">Guest User</text>
-
-<rect x="200" y="80" width="170" height="60" rx="12" fill="#071827" stroke="#38bdf8"/>
-<text x="285" y="105" fill="#38bdf8" text-anchor="middle">Authorization</text>
-<text x="285" y="123" fill="#38bdf8" text-anchor="middle">Policy Engine</text>
-
-<rect x="440" y="25" width="150" height="55" rx="10" fill="#07140B" stroke="#22c55e"/>
-<text x="515" y="58" fill="#22c55e" text-anchor="middle">Guest Review</text>
-
-<rect x="440" y="140" width="180" height="55" rx="10" fill="#180606" stroke="#ef4444"/>
-<text x="530" y="173" fill="#ef4444" text-anchor="middle">Manager Diagnostic</text>
-
-<path d="M140 110 L200 110 M370 110 L440 52" stroke="#22c55e" stroke-width="2"/>
-<path d="M370 110 L440 168" stroke="#ef4444" stroke-width="2" stroke-dasharray="6 6"/>
-
-<text x="375" y="165" fill="#ef4444" font-size="12">Denied</text>
-
-</svg>
-
-### Secure Principle
-
-Manager diagnostics require **identity-based authorization**, not conversational approval.
-
----
-
-# ❌ Observed Vulnerable Workflow
-
-<svg viewBox="0 0 860 260" xmlns="http://www.w3.org/2000/svg">
-
-<rect x="20" y="95" width="120" height="60" rx="12" fill="#061814" stroke="#22c55e"/>
-<text x="80" y="130" fill="#22c55e" text-anchor="middle">Guest Prompt</text>
-
-<rect x="190" y="95" width="180" height="60" rx="12" fill="#251206" stroke="#f59e0b"/>
-<text x="280" y="122" fill="#f59e0b" text-anchor="middle">Approval State</text>
-<text x="280" y="140" fill="#f59e0b" text-anchor="middle">Created</text>
-
-<rect x="430" y="95" width="170" height="60" rx="12" fill="#220606" stroke="#ef4444"/>
-<text x="515" y="130" fill="#ef4444" text-anchor="middle">Stored Authorization</text>
-
-<rect x="660" y="95" width="170" height="60" rx="12" fill="#220606" stroke="#ef4444"/>
-<text x="745" y="122" fill="#ef4444" text-anchor="middle">Manager Override</text>
-<text x="745" y="140" fill="#ef4444" text-anchor="middle">Executed</text>
-
-<path d="M140 125 L190 125 M370 125 L430 125 M600 125 L660 125"
-stroke="#39FF14" stroke-width="2"/>
-
-</svg>
+```text
+Guest Prompt
+     |
+     v
+Approval State Created
+     |
+     v
+Stored Authorization State
+     |
+     v
+Manager Override Executed
+```
 
 ### Root Cause
 
-Authorization is derived from **conversation state**, not **authenticated manager identity**.
+The source identifies authorization derived from **conversation state rather than authenticated manager identity**.
 
----
+This creates a trust-boundary failure: conversational content or state is treated as a basis for granting privileges that should be enforced by a server-side authorization policy.
 
-# 📸 Evidence GKB-005 — Authorization Workflow
+### Evidence GKB-005 — Authorization Workflow
 
-<div class="evidence-card critical">
+<figure>
 
-<div class="evidence-header">
+  <img src="assets/05_override_authorization.png" alt="GKB-005: Authorization workflow evidence from the original investigation.">
 
-**Evidence ID:** GKB-005
+  <figcaption>GKB-005 — Broken authorization logic and privileged workflow investigation.</figcaption>
 
-**Category:** Broken Authorization Logic
+</figure>
 
-**Severity:** Critical
+**Evidence ID:** `GKB-005`
 
-</div>
+**Category:** Broken authorization logic
 
-![Authorization Workflow](assets/05_override_authorization.png)
+**Severity:** Critical, as assigned in the original documentation
 
-</div>
+### Evidence Analysis
 
----
+The original investigation reports the following observations:
 
-## Evidence Analysis
+- Authorization state can be created through guest-controlled content.
+- Approval state persists internally.
+- A subsequent guestbook entry consumes the stored approval.
+- Manager diagnostic functionality executes without the expected authentication boundary.
 
-The review sequence demonstrates an authorization state that persists across guestbook submissions.
+These observations indicate a failure to bind authorization to a verified identity and an appropriately scoped operation.
 
-### Observations
-
-- Authorization created through guest-controlled content.
-- Approval persists internally.
-- Next guestbook entry consumes approval.
-- Manager diagnostic executes without authentication.
-
----
-
-# Authorization State Machine
-
-<svg viewBox="0 0 900 330" xmlns="http://www.w3.org/2000/svg">
-
-<defs>
-  <filter id="shadow">
-    <feDropShadow dx="0" dy="0" stdDeviation="3" flood-color="#22c55e"/>
-  </filter>
-</defs>
-
-<rect x="60" y="30" width="180" height="70" rx="15"
-fill="#061814" stroke="#22c55e" filter="url(#shadow)"/>
-<text x="150" y="72" fill="#22c55e" text-anchor="middle">Guest Submission A</text>
-
-<rect x="350" y="30" width="220" height="70" rx="15"
-fill="#2a1905" stroke="#f59e0b" filter="url(#shadow)"/>
-<text x="460" y="60" fill="#f59e0b" text-anchor="middle">Approval State Created</text>
-<text x="460" y="80" fill="#f59e0b" text-anchor="middle">Temporary Authorization</text>
-
-<rect x="350" y="180" width="220" height="70" rx="15"
-fill="#240607" stroke="#ef4444" filter="url(#shadow)"/>
-<text x="460" y="210" fill="#ef4444" text-anchor="middle">Guest Submission B</text>
-<text x="460" y="228" fill="#ef4444" text-anchor="middle">Consumes Stored State</text>
-
-<rect x="670" y="105" width="180" height="70" rx="15"
-fill="#240607" stroke="#ef4444" filter="url(#shadow)"/>
-<text x="760" y="135" fill="#ef4444" text-anchor="middle">Manager Override</text>
-<text x="760" y="153" fill="#ef4444" text-anchor="middle">Executed</text>
-
-<path d="M240 65 L350 65 M460 100 V180 M570 140 L670 140"
-stroke="#39FF14" stroke-width="3"/>
-
-</svg>
-
----
-
-# Root Cause Analysis
-
-<div class="rootcause-grid">
-
-<div class="rootcause-card failure">
-
-### Identity Validation
-
-❌ Missing
-
-Authorization does not validate manager identity.
-
-</div>
-
-<div class="rootcause-card failure">
-
-### Session Binding
-
-❌ Missing
-
-Approval survives across requests.
-
-</div>
-
-<div class="rootcause-card failure">
-
-### Context Isolation
-
-❌ Missing
-
-Guest content modifies operational state.
-
-</div>
-
-<div class="rootcause-card success">
-
-### Recommended Control
-
-✅ External Policy Engine
-
-Authorization should never depend on AI reasoning.
-
-</div>
-
-</div>
-
----
-
-# Technical Breakdown
-
-<table>
-<tr>
-<th>Security Property</th>
-<th>Expected</th>
-<th>Observed</th>
-</tr>
-
-<tr>
-<td>Identity</td>
-<td>Authenticated manager.</td>
-<td>Guest prompt.</td>
-</tr>
-
-<tr>
-<td>Authorization</td>
-<td>Server-side policy.</td>
-<td>Conversation state.</td>
-</tr>
-
-<tr>
-<td>Scope</td>
-<td>Single privileged action.</td>
-<td>Inherited across reviews.</td>
-</tr>
-
-<tr>
-<td>Persistence</td>
-<td>Ephemeral token.</td>
-<td>Temporary approval state.</td>
-</tr>
-
-<tr>
-<td>Validation</td>
-<td>Role verification.</td>
-<td>None observed.</td>
-</tr>
-
-</table>
-
----
-
-# ⚠️ Security Finding — AUTH-01
-
-<div class="critical-panel">
-
-## Broken Authorization Logic
-
-**Severity:** Critical
-
-The application authorizes privileged functionality using AI workflow state rather than authenticated user identity.
-
-### Security Impact
-
-- Privilege Escalation
-- Authorization Bypass
-- Manager Workflow Exposure
-- AI Tool Abuse
-
-</div>
-
----
-
-# 🤖 Phase 05 — Manager Override Investigation
-
-<p class="phase-label">AI TOOL EXECUTION • PRIVILEGED DIAGNOSTICS • AI AGENT SECURITY</p>
-
-The `override:` directive invokes an internal diagnostic capability intended for privileged hotel staff.
-
----
-
-## Manager Diagnostic Workflow
-
-<svg viewBox="0 0 860 280" xmlns="http://www.w3.org/2000/svg">
-
-<rect x="30" y="105" width="150" height="60" rx="10"
-fill="#061814" stroke="#22c55e"/>
-
-<text x="105" y="140" fill="#22c55e" text-anchor="middle">Prompt</text>
-
-<rect x="240" y="105" width="180" height="60" rx="10"
-fill="#140B22" stroke="#8b5cf6"/>
-
-<text x="330" y="140" fill="#8b5cf6" text-anchor="middle">override:</text>
-
-<rect x="480" y="105" width="180" height="60" rx="10"
-fill="#241206" stroke="#f59e0b"/>
-
-<text x="570" y="140" fill="#f59e0b" text-anchor="middle">Diagnostic Tool</text>
-
-<rect x="720" y="105" width="120" height="60" rx="10"
-fill="#240607" stroke="#ef4444"/>
-
-<text x="780" y="140" fill="#ef4444" text-anchor="middle">Filesystem</text>
-
-<path d="M180 135 L240 135 M420 135 L480 135 M660 135 L720 135"
-stroke="#39FF14" stroke-width="2"/>
-
-</svg>
-
----
-
-## Investigation Result
-
-Manager override performs operations beyond guestbook functionality.
-
-### Evidence Indicates Access To
-
-<div class="permission-grid">
-
-<div class="permission-card">
-
-### Guest Records
-
-Internal metadata retrieval.
-
-</div>
-
-<div class="permission-card">
-
-### Review Notes
-
-Operational workflow information.
-
-</div>
-
-<div class="permission-card">
-
-### Diagnostic Output
-
-Backend execution context.
-
-</div>
-
-<div class="permission-card">
-
-### Protected Resources
-
-Filesystem visibility.
-
-</div>
-
-</div>
-
----
-
-# AI Agent Permission Analysis
-
-<div class="comparison-grid">
-
-<div class="comparison-card vulnerable">
-
-### Intended Permissions
-
-- Guest Reviews
-- Public Hotel Data
-- Review Summaries
-
-</div>
-
-<div class="comparison-card secure">
-
-### Observed Permissions
-
-- Guest Records
-- Hidden Directives
-- Manager Diagnostics
-- Protected Resources
-
-</div>
-
-</div>
-
----
-
-# AI Agent Risk Assessment
-
-<table>
-<tr>
-<th>Capability</th>
-<th>Risk</th>
-</tr>
-
-<tr>
-<td>Guest Lookup</td>
-<td>Information Disclosure</td>
-</tr>
-
-<tr>
-<td>Review Notes</td>
-<td>Workflow Manipulation</td>
-</tr>
-
-<tr>
-<td>Manager Override</td>
-<td>Privilege Escalation</td>
-</tr>
-
-<tr>
-<td>Protected Output</td>
-<td>Sensitive Data Exposure</td>
-</tr>
-
-</table>
-
----
-
-# 🛡️ Principle of Least Privilege Review
-
-<div class="architecture-review">
-
-## Vulnerable Architecture
+### Authorization State Machine
 
 ```text
-Guest Prompt
-      │
-      ▼
-VERA AI Assistant
-      │
-──────────────────────────
-Guest Reviews
-Guest Records
-Manager Diagnostics
-Filesystem Access
-──────────────────────────
+Guest Submission A
+        |
+        v
+Approval State Created
+        |
+        v
+Temporary Authorization State
+        |
+        v
+Guest Submission B
+        |
+        v
+Stored State Consumed
+        |
+        v
+Manager Override Executed
 ```
 
-## Secure Architecture
+This is the state transition described in the original report. The exact internal implementation has not been independently verified.
+
+### Technical Breakdown
+
+| Security property | Expected secure behavior | Behavior reported by the source |
+|---|---|---|
+| Identity | Authenticated manager | Guest prompt influences workflow |
+| Authorization | Server-side policy enforcement | Conversation-derived state |
+| Scope | One authorized operation | Approval may carry across reviews |
+| Persistence | Short-lived, scoped authorization | Temporary approval state persists |
+| Validation | Role and permission verification | No effective identity validation observed |
+
+### Root Cause Analysis
+
+<div class="ctf-card-grid">
+
+  <div class="ctf-card">
+    <div class="ctf-card-title">Identity Validation</div>
+    **Reported failure**
+
+    Authorization does not adequately validate manager identity.
+  </div>
+
+  <div class="ctf-card">
+    <div class="ctf-card-title">Session Binding</div>
+    **Reported failure**
+
+    Approval state persists across requests.
+  </div>
+
+  <div class="ctf-card">
+    <div class="ctf-card-title">Context Isolation</div>
+    **Reported failure**
+
+    Guest content can influence operational state.
+  </div>
+
+  <div class="ctf-card">
+    <div class="ctf-card-title">Recommended Control</div>
+    **External policy enforcement**
+
+    Privileged operations must be authorized outside AI reasoning.
+  </div>
+
+</div>
+
+### Finding AUTH-01 — Broken Authorization Logic
+
+<div class="key-finding">
+
+  <div class="key-finding-title">Critical Security Finding</div>
+
+  **Severity:** Critical, as reported in the source.
+
+  The application reportedly uses AI workflow state rather than authenticated user identity to authorize privileged functionality.
+
+  **Documented potential impact:**
+
+  - Privilege escalation.
+  - Authorization bypass.
+  - Manager workflow exposure.
+  - AI tool abuse.
+
+</div>
+
+## Manager Override Investigation
+
+The next phase investigated the `override:` directive and its relationship to privileged diagnostic functionality.
+
+The source describes this capability as intended for privileged hotel staff and reports that it can perform operations beyond ordinary guestbook functionality.
+
+### Manager Diagnostic Workflow
+
+```text
+Prompt
+  |
+  v
+override:
+  |
+  v
+Diagnostic Tool
+  |
+  v
+Filesystem / Protected Resources
+```
+
+### Documented Areas of Access
+
+| Capability | Reported function | Security risk |
+|---|---|---|
+| Guest records | Internal metadata retrieval | Information disclosure |
+| Review notes | Operational workflow information | Workflow manipulation |
+| Diagnostic output | Backend execution context | Exposure of internal state |
+| Protected resources | Filesystem visibility | Sensitive resource disclosure |
+
+The original source does not provide enough implementation detail to conclude that arbitrary code execution occurred. The finding is therefore described as privileged diagnostic execution and resource access rather than an independently verified remote-code-execution vulnerability.
+
+### Intended and Observed Permissions
+
+| Intended guest permissions | Additional capabilities reported by the source |
+|---|---|
+| Guest reviews | Guest records |
+| Public hotel data | Hidden directives |
+| Review summaries | Manager diagnostics |
+| — | Protected resources |
+
+### AI Agent Risk Assessment
+
+The key issue is excessive agency: an AI component that accepts untrusted input has access to capabilities that exceed its intended guest-facing role.
+
+The risk becomes more serious when the agent can invoke tools, retrieve internal data, or interact with resources without a separate authorization gateway.
+
+### Principle of Least Privilege Review
+
+**Vulnerable model**
 
 ```text
 Guest Prompt
-      │
+     |
+     v
+VERA AI Assistant
+     |
+     +----> Guest Reviews
+     |
+     +----> Guest Records
+     |
+     +----> Manager Diagnostics
+     |
+     +----> Filesystem Access
+```
+
+**Recommended model**
+
+```text
+Guest Prompt
+     |
+     v
 Input Validation
-      │
+     |
+     v
 Policy Enforcement
-      │
+     |
+     v
 VERA AI Assistant
-      │
-──────────────────────────
-Guest Reviews Only
-──────────────────────────
+     |
+     v
+Authorized Tool Gateway
+     |
+     v
+Guest Review Operations Only
 ```
 
-</div>
+### Root Cause Dashboard
 
----
+| Finding ID | Issue | Security implication |
+|---|---|---|
+| AUTH-01 | Conversation-derived authorization | Privilege boundary failure |
+| AUTH-02 | Missing role verification | Unauthorized privileged operations |
+| AUTH-03 | Excessive AI permissions | Expanded attack surface |
+| AUTH-04 | Privileged diagnostic execution | Potential protected resource exposure |
 
-# Root Cause Dashboard
+These identifiers are retained from the source's root-cause dashboard.
 
-<div class="dashboard-grid">
+### Investigation Summary
 
-<div class="dashboard-card red">
+| Investigation area | Source-reported status |
+|---|---|
+| Broken authorization | Confirmed |
+| Temporary approval state | Confirmed |
+| Manager override execution | Confirmed |
+| Privileged tool invocation | Confirmed |
+| Excessive AI permissions | Confirmed |
 
-### AUTH-01
+## Protected Output Analysis
 
-Conversation-derived authorization.
+The original investigation reports that the manager diagnostic workflow reached protected output and investigated an encoded resource.
 
-</div>
+The evidence register identifies a sixth artifact for encoded output analysis.
 
-<div class="dashboard-card red">
+The source does not provide the exact encoded value, decoding command, or decoded contents in the supplied material. Those details are not reconstructed.
 
-### AUTH-02
+The final challenge flag remains intentionally redacted in this portfolio edition.
 
-Missing role verification.
+## Security Findings
 
-</div>
+The following findings consolidate the observations documented throughout the investigation.
 
-<div class="dashboard-card orange">
+| Finding ID | Finding | Source-provided severity | Documented evidence |
+|---|---|---|---|
+| GKB-API-01 | Guestbook API exposes additional review metadata | Medium in the original API finding | Structured API responses |
+| GKB-01 | Prompt injection | High | GKB-003 |
+| GKB-02 | Hidden directive discovery | High | GKB-004 |
+| GKB-03 | Broken authorization logic | Critical | GKB-005 |
+| GKB-04 | Manager override execution | Critical | Authorization and diagnostic investigation |
+| GKB-05 | Sensitive resource disclosure | High | Protected resource investigation |
+| GKB-06 | Encoded output exposure | Medium | GKB-006 is referenced by the source's assessment matrix; the corresponding screenshot is not supplied in the provided document |
 
-### AUTH-03
+The `GKB-01` through `GKB-06` identifiers belong to the original assessment matrix. They are not the same identifier scheme as the evidence artifacts `GKB-001` through `GKB-005`.
 
-Excessive AI permissions.
+### Consolidated Key Finding
 
-</div>
+<div class="key-finding">
 
-<div class="dashboard-card purple">
+  <div class="key-finding-title">Primary Security Conclusion</div>
 
-### AUTH-04
+  The central architectural issue is the combination of prompt-injection exposure, access to internal AI capabilities, and inadequate authorization enforcement.
 
-Privileged diagnostic execution.
-
-</div>
-
-</div>
-
----
-
-# Investigation Summary
-
-<div class="summary-panel">
-
-### Findings Confirmed
-
-| Investigation | Status |
-|---------------|--------|
-| Broken Authorization | ✅ Confirmed |
-| Temporary Approval State | ✅ Confirmed |
-| Manager Override Execution | ✅ Confirmed |
-| Privileged Tool Invocation | ✅ Confirmed |
-| Excessive AI Permissions | ✅ Confirmed |
-
-### Security Severity
-
-**Critical**
-
-The authorization workflow violates identity-based access control principles and allows privileged operations through AI conversation state.
+  The most important defensive principle is that **AI reasoning must never serve as the security authority for privileged backend operations**. Authentication, role validation, authorization, resource scoping, and audit logging must be enforced by trusted application components.
 
 </div>
 
----
+## Risk Assessment
 
----
+The original documentation includes the following CVSS-style values:
 
-<div class="chapter-banner success">
+| Risk category | Source-provided score | Source-provided classification |
+|---|---:|---|
+| Authorization failure | 9.8 / 10 | Critical |
+| Prompt injection | 8.8 / 10 | High |
+| Hidden AI directives | 8.1 / 10 | High |
+| Information disclosure | 7.4 / 10 | Medium–High |
 
-# 🛡️ DEFENSIVE SECURITY & AI SECURITY ENGINEERING
+These values are preserved as source-provided estimates. They have not been independently recalculated or validated as formal CVSS scores.
 
-### OWASP LLM Top 10 • MITRE ATT&CK • Detection Engineering • Secure AI Architecture
+A defensible CVSS assessment would require the applicable CVSS version, attack vector, attack complexity, privileges required, user interaction, scope, and impact metrics.
 
-</div>
+### Executive Risk Dashboard
 
-> **Perspective Shift:** After demonstrating the attack path, this section documents how a security engineering team should detect, investigate, and prevent this class of AI vulnerability in production environments.
+| Area | Assessment |
+|---|---|
+| Primary severity | Critical, as reported for authorization failure |
+| AI risk | Prompt injection |
+| Business impact | Unauthorized AI tool execution |
+| Confidentiality concern | Guest information and protected resource exposure |
+| Integrity concern | Manipulation of workflow and authorization state |
+| Defensive priority | Independent authorization and least privilege |
 
----
+The impact categories above describe the security implications of the documented behaviors; they are not a substitute for an independently validated impact assessment.
 
-# 📊 Executive Security Dashboard
+## OWASP LLM Top 10 Mapping
 
-<div class="security-dashboard">
+The original documentation maps the investigation to the following OWASP LLM risk categories.
 
-<div class="metric-card critical">
+| Source-provided identifier | Risk category | Relevance to the investigation |
+|---|---|---|
+| LLM01 | Prompt Injection | Guestbook content influences AI reasoning |
+| LLM02 | Sensitive Information Disclosure | Internal guest information may be exposed |
+| LLM06 | Excessive Agency | The AI invokes privileged backend functionality |
+| LLM08 | Excessive Permissions | Manager-only capabilities are reachable through the AI workflow |
+| LLM09 | Overreliance | Authorization is delegated to conversational workflow state |
 
-<small>PRIMARY SEVERITY</small>
+These identifiers and labels are preserved from the original source. OWASP category numbering and terminology can change between editions; the mappings should be checked against the specific edition used by the assessment before being presented as a current standards mapping.
 
-# CRITICAL
+### AI Risk Heatmap
 
-Broken Authorization Logic
+| Risk | Source-provided relevance |
+|---|---|
+| Prompt injection | Critical |
+| Sensitive information disclosure | Critical |
+| Excessive agency | Critical |
+| Excessive permissions | Critical |
+| Insecure plugin/tool usage | High |
+| Overreliance on AI | High |
 
-</div>
+These labels reflect the original report's assessment, not a new independent severity calculation.
 
-<div class="metric-card high">
+## MITRE ATT&CK Mapping
 
-<small>AI RISK CATEGORY</small>
+The source material contains the following MITRE ATT&CK mappings. They are retained for traceability, but should be validated against the documented behavior and the applicable ATT&CK version before being used in formal threat intelligence or detection reporting.
 
-# HIGH
+| Source-provided technique ID | Source-provided technique name | Evidence or relationship described in the source |
+|---|---|---|
+| T1190 | Exploit Public-Facing Application | Public guestbook application and its reported security weaknesses |
+| T1211 | Exploitation for Privilege Escalation | Source's mapping for the reported authorization failure |
+| T1059 | Command and Scripting Interpreter | Source's mapping for tool or diagnostic execution |
+| T1005 | Data from Local System | Protected resource and filesystem access investigation |
+| T1552 | Unsecured Credentials | Source's mapping for sensitive information exposure |
 
-Prompt Injection
+**Mapping qualification:** These are the original source's proposed mappings, not independently confirmed technique assignments. In particular, an authorization flaw or prompt injection does not automatically establish a specific ATT&CK technique. The activity must meet the technique's actual behavioral definition.
 
-</div>
-
-<div class="metric-card high">
-
-<small>BUSINESS IMPACT</small>
-
-# HIGH
-
-Unauthorized AI Tool Execution
-
-</div>
-
-<div class="metric-card medium">
-
-<small>FRAMEWORK COVERAGE</small>
-
-# OWASP + MITRE
-
-AI Security Assessment
-
-</div>
-
-</div>
-
----
-
-# 🔥 Vulnerability Assessment Matrix
-
-<div class="vuln-table">
-
-| Finding ID | Vulnerability | Severity |
-|------------|---------------|----------|
-| **GKB-01** | Prompt Injection | 🔴 High |
-| **GKB-02** | Hidden Directive Discovery | 🔴 High |
-| **GKB-03** | Broken Authorization Logic | 🔴 Critical |
-| **GKB-04** | Manager Override Execution | 🔴 Critical |
-| **GKB-05** | Sensitive Resource Disclosure | 🟠 High |
-| **GKB-06** | Encoded Output Exposure | 🟡 Medium |
-
-</div>
-
----
-
-# 📈 CVSS-Style Risk Visualization
-
-<div class="risk-grid">
-
-<div class="risk-card critical">
-
-## Authorization Failure
-
-**9.8 / 10**
-
-Critical
-
-</div>
-
-<div class="risk-card high">
-
-## Prompt Injection
-
-**8.8 / 10**
-
-High
-
-</div>
-
-<div class="risk-card high">
-
-## Hidden AI Directives
-
-**8.1 / 10**
-
-High
-
-</div>
-
-<div class="risk-card medium">
-
-## Information Disclosure
-
-**7.4 / 10**
-
-Medium–High
-
-</div>
-
-</div>
-
----
-
-# 🤖 OWASP LLM Top 10 Mapping
-
-<p class="phase-label">AI APPLICATION SECURITY RISK MAPPING</p>
-
-This room closely mirrors multiple risks described in the **OWASP Top 10 for Large Language Model Applications**.
-
-<div class="owasp-grid">
-
-<div class="owasp-card">
-
-## LLM01
-
-### Prompt Injection
-
-Guestbook entries modify AI reasoning context.
-
-</div>
-
-<div class="owasp-card">
-
-## LLM02
-
-### Sensitive Information Disclosure
-
-VERA exposes internal guest information.
-
-</div>
-
-<div class="owasp-card">
-
-## LLM06
-
-### Excessive Agency
-
-AI invokes privileged backend functionality.
-
-</div>
-
-<div class="owasp-card">
-
-## LLM08
-
-### Excessive Permissions
-
-Manager-only capabilities become reachable.
-
-</div>
-
-<div class="owasp-card">
-
-## LLM09
-
-### Overreliance
-
-Authorization delegated to conversational workflow.
-
-</div>
-
-</div>
-
----
-
-# AI Risk Heatmap
-
-| OWASP Risk | Relevance |
-|------------|-----------|
-| Prompt Injection | 🟥 Critical |
-| Sensitive Information Disclosure | 🟥 Critical |
-| Excessive Agency | 🟥 Critical |
-| Excessive Permissions | 🟥 Critical |
-| Insecure Plugin / Tool Usage | 🟧 High |
-| Overreliance on AI | 🟧 High |
-
----
-
-# 🎯 MITRE ATT&CK Mapping
-
-<p class="phase-label">TACTICS • TECHNIQUES • PROCEDURES</p>
-
-<div class="mitre-grid">
-
-<div class="mitre-card">
-
-### T1190
-
-Exploit Public-Facing Application
-
-</div>
-
-<div class="mitre-card">
-
-### T1211
-
-Exploitation for Privilege Escalation
-
-</div>
-
-<div class="mitre-card">
-
-### T1059
-
-Command / Tool Execution
-
-</div>
-
-<div class="mitre-card">
-
-### T1005
-
-Data From Local System
-
-</div>
-
-<div class="mitre-card">
-
-### T1552
-
-Sensitive Information Disclosure
-
-</div>
-
-</div>
-
----
-
-# MITRE Attack Flow
+### Documented Attack Flow
 
 ```text
 Initial Access
-      │
-      ▼
+      |
+      v
 Public Guestbook Application
-      │
-      ▼
+      |
+      v
 Prompt Injection
-      │
-      ▼
+      |
+      v
 Hidden Directive Enumeration
-      │
-      ▼
+      |
+      v
 Authorization Abuse
-      │
-      ▼
-Privilege Escalation
-      │
-      ▼
+      |
+      v
+Privileged Workflow Execution
+      |
+      v
 Protected Resource Access
 ```
 
----
+## Blue Team Detection Engineering
 
-# 🛰️ Blue Team Detection Engineering Center
+A production security operations center should monitor AI assistants as application components capable of accessing sensitive resources and invoking privileged tools.
 
-<p class="phase-label">SOC ANALYSIS • SIGMA • SIEM • INCIDENT RESPONSE</p>
+Detection should focus on observable security events, policy decisions, identity context, and actual tool execution rather than relying solely on suspicious words appearing in user prompts.
 
-A production SOC should monitor AI assistants exactly like privileged backend services.
-
----
-
-## Detection Pipeline
+### Detection Pipeline
 
 ```text
 Guest Prompt
-      │
+     |
+     v
 Prompt Classification
-      │
-Policy Validation Engine
-      │
-Tool Invocation Logs
-      │
+     |
+     v
+Policy Validation
+     |
+     v
+Tool Invocation Logging
+     |
+     v
 SIEM Analytics
-      │
+     |
+     v
 SOC Investigation
 ```
 
-Every AI tool invocation becomes a security event.
+### Detection Opportunities
 
----
+<div class="ctf-card-grid">
 
-# Detection Opportunities
+  <div class="ctf-card">
+    <div class="ctf-card-title">Prompt Injection</div>
 
-<div class="detection-grid">
+    Identify suspicious attempts to alter instructions, request internal directives, or influence tool selection.
+  </div>
 
-<div class="detection-card">
+  <div class="ctf-card">
+    <div class="ctf-card-title">Authorization Transitions</div>
 
-### Prompt Injection Detection
+    Investigate privileged operations requested from guest identities or without an authenticated principal.
+  </div>
 
-Monitor suspicious operational keywords.
+  <div class="ctf-card">
+    <div class="ctf-card-title">Hidden Directives</div>
 
-</div>
+    Detect unusual attempts to invoke internal operational capabilities.
+  </div>
 
-<div class="detection-card">
+  <div class="ctf-card">
+    <div class="ctf-card-title">Diagnostic Execution</div>
 
-### Authorization Transition Detection
-
-Guest → Manager privilege transition.
-
-</div>
-
-<div class="detection-card">
-
-### Hidden Directive Detection
-
-Unexpected operational directives.
+    Alert on guest workflows attempting to invoke privileged diagnostic tools or access protected resources.
+  </div>
 
 </div>
 
-<div class="detection-card">
+### Example Sigma-Style Rule
 
-### Diagnostic Tool Execution
-
-Guest workflow invoking privileged diagnostics.
-
-</div>
-
-</div>
-
----
-
-# Example Sigma Rule
-
-<div class="terminal-box">
+The original document includes a rule that searches for operational keywords. The example below preserves its original detection logic while formatting it as a single valid YAML document.
 
 ```yaml
 title: AI Prompt Injection Detection
-
 status: experimental
 
 logsource:
@@ -2545,346 +1289,316 @@ logsource:
 
 detection:
   keywords:
-    - override:
-    - lookup:
-    - manager
-    - diagnostic
-
-condition: keywords
+    - 'override:'
+    - 'lookup:'
+    - 'manager'
+    - 'diagnostic'
+  condition: keywords
 
 level: high
 ```
 
-</div>
+**Important implementation limitation:** This is an illustrative, source-derived detection rule. The `ai-assistant` product value and the generic `keywords` selection are not sufficient to establish compatibility with a particular deployed logging pipeline or Sigma backend. The rule must be adapted to the actual event schema and tested before production use.
 
----
+Keyword matching can generate false positives and miss attacks that use alternative wording. A stronger detection strategy correlates tool invocation, authenticated identity, authorization decisions, resource access, and request context.
 
-# SOC Investigation Playbook
+### Logging Requirements
 
-<div class="playbook-grid">
+| Security event field | Purpose |
+|---|---|
+| Prompt hash or suitable content reference | Correlate events while limiting unnecessary exposure of raw prompts |
+| User identity | Identify the authenticated principal |
+| User role | Distinguish guest and manager permissions |
+| Tool invoked | Establish which backend capability was requested |
+| Authorization decision | Record allow or deny outcomes |
+| Timestamp | Reconstruct the incident timeline |
+| Resource accessed | Identify the affected resource |
+| Request or correlation ID | Connect events across application components |
 
-<div class="playbook-step">
+Logs should be protected against tampering and should avoid unnecessarily storing passwords, tokens, raw secrets, or sensitive conversation content.
 
-### Step 01
+## SOC Investigation Playbook
 
-Identify Prompt Injection alert.
+<div class="attack-chain">
 
-</div>
+  <div class="attack-step">Identify Alert</div>
 
-<div class="playbook-step">
+  <div class="attack-arrow">→</div>
 
-### Step 02
+  <div class="attack-step">Review Context</div>
 
-Review AI conversation history.
+  <div class="attack-arrow">→</div>
 
-</div>
+  <div class="attack-step">Inspect Tool Logs</div>
 
-<div class="playbook-step">
+  <div class="attack-arrow">→</div>
 
-### Step 03
+  <div class="attack-step">Validate Identity</div>
 
-Inspect tool invocation logs.
+  <div class="attack-arrow">→</div>
 
-</div>
-
-<div class="playbook-step">
-
-### Step 04
-
-Validate authorization source.
-
-</div>
-
-<div class="playbook-step">
-
-### Step 05
-
-Contain privileged AI workflow.
+  <div class="attack-step">Contain Workflow</div>
 
 </div>
 
-</div>
+### Step 01 — Identify the Alert
 
----
+Determine whether the alert represents suspicious prompt behavior, an attempted privileged tool invocation, an authorization failure, or confirmed unauthorized resource access.
 
-# Logging Requirements
+### Step 02 — Review Conversation History
 
-| Security Log | Purpose |
-|--------------|---------|
-| Prompt Hash | Conversation integrity |
-| User Identity | Authorization |
-| User Role | Guest / Manager |
-| Tool Invoked | Backend visibility |
-| Authorization Decision | Allow / Deny |
-| Timestamp | Timeline reconstruction |
-| Resource Accessed | Incident evidence |
+Examine the relevant interaction and identify attempts to change instructions, discover internal capabilities, or influence operational decisions.
 
----
+Use the minimum conversation content necessary for investigation.
 
-# 🧠 Secure AI Security Architecture
+### Step 03 — Inspect Tool Invocation Logs
 
-<p class="phase-label">ZERO TRUST FOR AI AGENTS</p>
+Correlate the AI interaction with backend requests, tool invocation records, resource access events, and application errors.
 
-## Vulnerable Architecture
+### Step 04 — Validate Authorization
+
+Verify that the principal invoking the operation was authenticated and authorized for the specific resource and action.
+
+Determine whether any authorization decision was derived from conversational state.
+
+### Step 05 — Contain the Privileged Workflow
+
+If unauthorized execution is suspected, disable or isolate the affected tool integration, revoke relevant temporary permissions, preserve audit evidence, and investigate possible data exposure.
+
+Containment actions should be proportional to the confirmed incident scope.
+
+## Secure AI Architecture
+
+The central architectural recommendation is to separate language-model behavior from trusted authorization decisions.
+
+### Vulnerable Architecture
 
 ```text
 Guest Prompt
-      │
-      ▼
+     |
+     v
 VERA Prompt Context
-      │
-      ▼
+     |
+     v
 Hidden Directives
-      │
-      ▼
+     |
+     v
 Manager Diagnostic Tool
-      │
-      ▼
+     |
+     v
 Protected Resource
 ```
 
-### Problems
+The risk in this model is that an AI interaction may influence access to privileged functionality without an independent authorization boundary.
 
-- Prompt contamination.
-- Excessive permissions.
-- No authorization gateway.
-
----
-
-## Recommended Secure Architecture
+### Recommended Secure Architecture
 
 ```text
 Guest Prompt
-      │
-Input Sanitization
-      │
-Prompt Isolation Layer
-      │
-Policy Enforcement Engine
-      │
+     |
+     v
+Input Validation
+     |
+     v
+Prompt Isolation
+     |
+     v
+AI Assistant
+     |
+     v
 Authorized Tool Gateway
-      │
+     |
+     v
+Identity and Policy Enforcement
+     |
+     v
 Scoped Backend Services
-      │
+     |
+     v
 Response Generation
 ```
 
-### Security Controls
+The ordering is conceptual: authorization checks must occur before a privileged operation executes, regardless of where AI reasoning or response generation occurs.
 
-- Prompt Isolation.
-- Role-Based Authorization.
-- Allowlisted Tools.
-- Sandboxed Execution.
-- Audit Logging.
-- Least Privilege.
+### Required Security Controls
 
----
+- Separate trusted instructions from untrusted guest content.
+- Use server-side identity and role validation.
+- Enforce per-operation authorization outside the model.
+- Allowlist permitted tools and operations.
+- Apply resource-level access controls.
+- Limit tool permissions to the minimum required.
+- Prevent authorization state from leaking across unrelated requests.
+- Bind approval to the authenticated principal, action, resource, and appropriate session context.
+- Use short-lived, scoped authorization grants where required.
+- Record tool calls and authorization outcomes in protected audit logs.
+- Test prompt injection and authorization boundaries together.
 
-# Defense-in-Depth Strategy
+### Defense-in-Depth Strategy
 
-<div class="defense-grid">
+| Layer | Security control | Objective |
+|---|---|---|
+| 1 | Input validation | Handle untrusted input safely |
+| 2 | Prompt isolation | Reduce instruction confusion and context contamination |
+| 3 | Policy enforcement | Independently authorize operations |
+| 4 | Tool gateway | Restrict callable capabilities |
+| 5 | Logging and monitoring | Detect and investigate misuse |
+| 6 | Incident response | Contain unauthorized activity |
 
-<div class="defense-card">
+Prompt isolation is a defense-in-depth measure, not a complete security boundary by itself. Authorization must remain effective even when the model follows malicious instructions.
 
-## Layer 1
+## Defensive Recommendations
 
-Input Validation
+The following recommendations are directly related to the findings documented in this investigation.
 
-</div>
+| Finding | Risk | Recommended control |
+|---|---|---|
+| Prompt injection | Untrusted content influences model behavior | Separate instructions and data; evaluate untrusted input; enforce external policy checks |
+| Hidden directives | Internal capabilities become discoverable or invocable | Restrict tool exposure and enforce server-side permissions |
+| Broken authorization | Conversation state grants privileges | Require identity-based authorization for every privileged operation |
+| Persistent approval state | Authorization may carry across requests | Bind authorization to a principal, action, resource, and limited validity period |
+| Excessive AI permissions | The assistant can access unnecessary resources | Apply least privilege and resource-scoped tool permissions |
+| Metadata exposure | Internal workflow details may be disclosed | Minimize public metadata and enforce access controls |
+| Protected output exposure | Sensitive resources may be retrieved without authorization | Validate access at the resource boundary and log retrieval |
+| Limited detection context | Suspicious activity may be difficult to investigate | Correlate identity, tool calls, authorization decisions, and resource access |
 
-<div class="defense-card">
+### Priority 1 — Fix Authorization at the Server Boundary
 
-## Layer 2
+Do not treat a natural-language request, model response, conversation marker, or stored conversation state as proof of manager authorization.
 
-Prompt Isolation
+Every privileged operation should independently verify the authenticated principal and the required permission.
 
-</div>
+### Priority 2 — Reduce AI Agent Permissions
 
-<div class="defense-card">
+The guest-facing assistant should only have access to capabilities needed for guest review processing.
 
-## Layer 3
+Manager diagnostics, internal databases, and protected resources should remain behind dedicated access-control boundaries.
 
-Policy Engine
+### Priority 3 — Scope and Bind Approval State
 
-</div>
+If approval state is necessary, it should be generated through a trusted authorization process and bound to the intended user, operation, resource, and validity period.
 
-<div class="defense-card">
+Untrusted guestbook submissions must not create or inherit privileged approval state.
 
-## Layer 4
+### Priority 4 — Improve Auditability
 
-Tool Gateway
+Log the identity, requested tool, authorization decision, affected resource, timestamp, and request correlation identifier.
 
-</div>
+This enables investigation of attempts to invoke privileged operations through an AI interface.
 
-<div class="defense-card">
+### Priority 5 — Test the Complete AI Workflow
 
-## Layer 5
+Security testing should evaluate the combined behavior of:
 
-Logging & Monitoring
+- Prompt injection handling.
+- Tool selection and invocation.
+- Identity verification.
+- Authorization state persistence.
+- Resource-level permissions.
+- Audit logging.
+- Error handling and denial behavior.
 
-</div>
+The objective is to demonstrate that an AI assistant cannot bypass access controls even when user input successfully manipulates its reasoning.
 
-<div class="defense-card">
+## Evidence Register
 
-## Layer 6
+The original document references six major evidence artifacts.
 
-Incident Response
+| Evidence ID | Artifact | Category | Source-reported confidence or severity |
+|---|---|---|---|
+| GKB-001 | `assets/01_guestbook_overview.png` | Initial reconnaissance | High confidence |
+| GKB-002 | `assets/02_api_activity.png` | API enumeration | High confidence |
+| GKB-003 | `assets/03_prompt_injection.png` | Prompt injection validation | High severity |
+| GKB-004 | `assets/04_directive_discovery.png` | Hidden directive discovery | High severity |
+| GKB-005 | `assets/05_override_authorization.png` | Broken authorization logic | Critical severity |
+| GKB-006 | No screenshot path supplied in the provided source | Encoded output analysis | Medium severity in the original assessment matrix |
 
-</div>
+The first five screenshot paths are preserved exactly as supplied.
 
-</div>
+The original source references the sixth artifact as encoded output analysis but does not provide a corresponding image path or image file reference. No replacement image has been invented.
 
----
+## Tools and Technical Artifacts
 
-# 📚 Lessons Learned
+Only the tools and command-line utilities explicitly documented in the source are listed here.
 
-<div class="lesson-grid">
+| Tool or artifact | Documented use |
+|---|---|
+| `curl` | Retrieve the homepage, inspect the activity endpoint, and submit a baseline guestbook entry |
+| `grep` | Search saved HTML for guestbook, VERA, review, and directive-related strings |
+| Browser and guestbook interface | Initial application enumeration and behavioral observation |
+| Guestbook API | Inspect structured guest records and review metadata |
+| VERA activity endpoint | Observe AI processing activity |
+| Sigma-style YAML rule | Illustrate a potential detection approach |
 
-<div class="lesson-card">
+The original document also discusses SIEM analytics, incident response, OWASP LLM risks, and MITRE ATT&CK. These are analytical frameworks and defensive engineering concepts rather than additional tools demonstrated through commands in the source.
 
-## AI Security
-
-Prompt Injection becomes dangerous when AI agents control backend tools.
-
-</div>
-
-<div class="lesson-card">
-
-## Authorization
-
-Identity validation must exist outside AI reasoning.
-
-</div>
-
-<div class="lesson-card">
-
-## Offensive Security
-
-Hidden AI capabilities expand attack surface significantly.
-
-</div>
-
-<div class="lesson-card">
-
-## Blue Team
-
-Every AI tool invocation should generate auditable telemetry.
-
-</div>
-
-</div>
-
----
-
-# Skills Demonstrated
-
-<div class="portfolio-skills">
-
-### Offensive Security
-
-- Prompt Injection
-- API Enumeration
-- AI Workflow Manipulation
-- Authorization Testing
-- Privilege Escalation Analysis
+## Lessons Learned
 
 ### AI Security
 
-- OWASP LLM Top 10
-- AI Agent Security
-- Prompt Context Analysis
-- Tool Invocation Security
-- Trust Boundary Analysis
+Prompt injection becomes more consequential when an AI assistant has access to backend tools, internal data, or privileged operations.
+
+A model's ability to follow instructions must never be treated as a security boundary.
+
+### Authorization
+
+Authentication and authorization are separate from AI reasoning. A model should not be able to grant itself or a user additional privileges through conversation state.
+
+### Offensive Security
+
+Reconnaissance and API enumeration can expose application behavior that is not immediately apparent from the user interface.
+
+Testing the complete workflow helps identify security weaknesses that emerge only when multiple components interact.
 
 ### Detection Engineering
 
-- Sigma Rules
-- SIEM Detection Pipeline
-- Threat Modeling
-- Incident Response Workflow
-- MITRE ATT&CK Mapping
+Monitoring only the text of a prompt is insufficient. Effective detection correlates the request with actual tool execution, identity, authorization outcomes, and resource access.
 
-### Documentation
+### Secure Architecture
 
-- Technical Reporting
-- Evidence Collection
-- Risk Assessment
-- Security Architecture Review
-- GitHub Pages Portfolio Engineering
+Least privilege, explicit authorization, isolated tool interfaces, and auditable decisions reduce the potential impact of prompt injection.
 
-</div>
+### Technical Documentation
 
----
+Evidence identifiers, exact command syntax, preserved image paths, clear finding descriptions, and traceable risk assessments make a security report more useful to developers, analysts, and hiring teams.
 
-# Final Investigation Summary
+## Final Investigation Summary
 
-<div class="summary-box">
+<div class="key-finding">
 
-## Assessment Completed Successfully
+  <div class="key-finding-title">Assessment Conclusion</div>
 
-| Investigation Area | Status |
-|--------------------|--------|
-| Attack Surface Enumeration | ✅ Complete |
-| API Discovery | ✅ Complete |
-| Prompt Injection Validation | ✅ Complete |
-| Hidden Directive Discovery | ✅ Complete |
-| Authorization Boundary Analysis | ✅ Complete |
-| Manager Override Investigation | ✅ Complete |
-| Protected Output Analysis | ✅ Complete |
-| OWASP / MITRE Mapping | ✅ Complete |
-| Detection Engineering | ✅ Complete |
+  The Guestbook investigation documents an AI-assisted application in which user-controlled guestbook content influences VERA's behavior, internal operational directives are discoverable, and a flawed authorization workflow reportedly allows privileged diagnostic functionality to be reached.
+
+  The primary security lesson is that prompt injection, excessive AI permissions, and broken authorization can combine into a serious application security risk.
+
+  Secure AI applications must enforce identity-based authorization outside model reasoning, restrict tool capabilities, scope resource access, and generate auditable security events.
 
 </div>
 
----
+### Assessment Completion Matrix
 
-# Responsible Disclosure
+| Investigation area | Source-reported status |
+|---|---|
+| Attack surface enumeration | Complete |
+| API discovery | Complete |
+| Prompt injection validation | Complete |
+| Hidden directive discovery | Complete |
+| Authorization boundary analysis | Complete |
+| Manager override investigation | Complete |
+| Protected output analysis | Complete |
+| OWASP and MITRE mapping | Complete |
+| Detection engineering | Complete |
+| Defensive architecture review | Complete |
 
-<div class="warning-panel">
+These statuses reflect the completion claims in the original documentation, not independent reproduction of the laboratory.
 
-This repository documents an **authorized TryHackMe laboratory environment**.
+## References
 
-### Public Portfolio Edition
+The supplied source does not include specific external reference URLs for the AI security standards, ATT&CK techniques, or detection-engineering material.
 
-- Final flag intentionally removed.
-- Sensitive outputs redacted.
-- Payloads generalized where appropriate.
-- Focus remains on security methodology and defensive engineering.
+No external URLs have been added or fabricated.
 
-This documentation is intended for cybersecurity education and portfolio presentation.
+## Responsible Use
 
-</div>
-
----
-
-<div class="footer-hero">
-
-# 👨‍💻 Anurag Revankar
-
-### Cybersecurity Analyst • AI Security Researcher • SOC & Detection Engineering Enthusiast
-
-Building enterprise-grade cybersecurity projects including AI security research, SIEM engineering, threat detection, offensive security labs, and professional GitHub Pages documentation.
-
----
-
-<div class="footer-badges">
-
-![AI Security](https://img.shields.io/badge/AI_Security-Research-00FF88?style=for-the-badge)
-
-![TryHackMe](https://img.shields.io/badge/TryHackMe-Walkthrough-red?style=for-the-badge)
-
-![GitHub Pages](https://img.shields.io/badge/GitHub_Pages-Hacker_Theme-success?style=for-the-badge)
-
-![Cybersecurity](https://img.shields.io/badge/Cybersecurity-Portfolio-blue?style=for-the-badge)
-
-</div>
-
----
-
-**The Guestbook — AI Security Incident Investigation**
-
-*Professional Cybersecurity Portfolio Edition*
-
-</div>
-
----
+> This documentation describes an authorized TryHackMe cybersecurity training environment. Techniques discussed here should only be used against systems for which explicit permission has been granted. AI security testing, API enumeration, and authorization testing must remain within the agreed assessment scope.

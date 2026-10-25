@@ -1,9 +1,3 @@
----
-layout: default
-title: "The Guestbook"
-description: "AI security investigation of The Guestbook TryHackMe lab, covering prompt injection, hidden AI directives, authorization failures, agent privilege escalation, and defensive security engineering."
----
-
 <div class="ctf-hero">
 
   <h1>The Guestbook</h1>
